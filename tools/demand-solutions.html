@@ -1,6 +1,6 @@
 <style>
 /* ==========================================================
-   SGE DEMAND SOLUTIONS TOOL v7
+   SGE DEMAND SOLUTIONS TOOL v8
    Design system: matches SGE Homepage / Feature Article / Boycott App
    Scoped under .sge-ds to beat Squarespace specificity
    ========================================================== */
@@ -869,11 +869,98 @@
 }
 .sge-ds .ds-footer-note a { color: var(--red); text-decoration: none; }
 .sge-ds .ds-footer-note a:hover { text-decoration: underline; }
+
+/* ── How-to video: subtle trigger + lightbox modal ── */
+.sge-ds .ds-howto {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 1rem 0 0 0.2rem !important;
+  padding: 0.3rem 0 !important;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--serif-display);
+  font-size: 0.66rem;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color 0.13s;
+}
+.sge-ds .ds-howto:hover { color: var(--red); }
+.sge-ds .ds-howto-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--red);
+  flex-shrink: 0;
+  transition: transform 0.13s;
+}
+.sge-ds .ds-howto:hover .ds-howto-play { transform: scale(1.08); }
+.sge-ds .ds-howto-play::before {
+  content: '';
+  border-style: solid;
+  border-width: 0.28rem 0 0.28rem 0.46rem;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 0.12rem;
+}
+.sge-ds .ds-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(15, 13, 10, 0.85);
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+}
+.sge-ds .ds-modal.open { display: flex; }
+.sge-ds .ds-modal-box {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+}
+.sge-ds .ds-modal-video {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.sge-ds .ds-modal-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.sge-ds .ds-modal-close {
+  position: absolute;
+  top: -2.5rem;
+  right: 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-family: var(--serif-display);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0.3rem 0 !important;
+}
+.sge-ds .ds-modal-close:hover { color: var(--gold); }
+@media (max-width: 720px) {
+  .sge-ds .ds-modal-close { top: -2.2rem; font-size: 0.6rem; }
+}
 </style>
 </head>
 <body>
 <div class="sge-ds">
-<!-- SGE Demand Solutions BUILD v7 -->
+<!-- SGE Demand Solutions BUILD v8 -->
 
 
 <!-- ── Credo bar ── -->
@@ -888,6 +975,10 @@
   <div class="ds-deck" style="padding-left:1.4rem!important;margin-left:0.2rem!important;border-left:3px solid #b80c0c!important;">
     Affordability. Immigration. Climate. It's not complicated.
   </div>
+  <button class="ds-howto" type="button" onclick="dsOpenHowto()">
+    <span class="ds-howto-play" aria-hidden="true"></span>
+    How to use this tool
+  </button>
 </header>
 <div class="ds-header-rule"><hr></div>
 
@@ -1389,8 +1480,18 @@ I also demand fully funded retraining and transition support for workers in foss
     A free tool from <a href="https://www.survivorsguidetoearth.com">Survivors Guide to Earth</a>
     &nbsp;·&nbsp; Member-funded, ad-free independent media
   </p>
-  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v7</div>
+  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v8</div>
 </footer>
+
+<!-- How-to video lightbox. The Vimeo iframe loads only when opened. -->
+<div class="ds-modal" id="dsHowtoModal" onclick="if(event.target===this)dsCloseHowto()">
+  <div class="ds-modal-box">
+    <button class="ds-modal-close" type="button" onclick="dsCloseHowto()">Close &#10005;</button>
+    <div class="ds-modal-video">
+      <iframe id="dsHowtoIframe" data-src="https://player.vimeo.com/video/1206297961?h=de0679e707&amp;title=0&amp;byline=0&amp;portrait=0" src="" title="How to use this tool" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
 
 </div><!-- /sge-ds -->
 
@@ -1827,4 +1928,23 @@ function shareToThreads() {
 function copyShareLink() {
   navigator.clipboard.writeText(buildShareURL()).then(() => alert('Share link copied.'));
 }
+
+// ── How-to video lightbox. The Vimeo iframe is lazy: its src is only set when
+// the modal opens (keeps the page light), and cleared on close to stop playback.
+function dsOpenHowto() {
+  var m = document.getElementById('dsHowtoModal');
+  var f = document.getElementById('dsHowtoIframe');
+  if (!m || !f) return;
+  if (!f.getAttribute('src')) f.setAttribute('src', f.getAttribute('data-src'));
+  m.classList.add('open');
+  document.addEventListener('keydown', dsHowtoEsc);
+}
+function dsCloseHowto() {
+  var m = document.getElementById('dsHowtoModal');
+  var f = document.getElementById('dsHowtoIframe');
+  if (m) m.classList.remove('open');
+  if (f) f.setAttribute('src', '');
+  document.removeEventListener('keydown', dsHowtoEsc);
+}
+function dsHowtoEsc(e) { if (e.key === 'Escape' || e.keyCode === 27) dsCloseHowto(); }
 </script>
