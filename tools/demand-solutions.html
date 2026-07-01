@@ -1,6 +1,6 @@
 <style>
 /* ==========================================================
-   SGE DEMAND SOLUTIONS TOOL v8
+   SGE DEMAND SOLUTIONS TOOL v9
    Design system: matches SGE Homepage / Feature Article / Boycott App
    Scoped under .sge-ds to beat Squarespace specificity
    ========================================================== */
@@ -960,7 +960,7 @@
 </head>
 <body>
 <div class="sge-ds">
-<!-- SGE Demand Solutions BUILD v8 -->
+<!-- SGE Demand Solutions BUILD v9 -->
 
 
 <!-- ── Credo bar ── -->
@@ -1480,7 +1480,7 @@ I also demand fully funded retraining and transition support for workers in foss
     A free tool from <a href="https://www.survivorsguidetoearth.com">Survivors Guide to Earth</a>
     &nbsp;·&nbsp; Member-funded, ad-free independent media
   </p>
-  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v8</div>
+  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v9</div>
 </footer>
 
 <!-- How-to video lightbox. The Vimeo iframe loads only when opened. -->
@@ -1935,8 +1935,21 @@ function dsOpenHowto() {
   var m = document.getElementById('dsHowtoModal');
   var f = document.getElementById('dsHowtoIframe');
   if (!m || !f) return;
+  // Portal the modal to a body-level .sge-ds host before showing it. On the live
+  // Squarespace page a transformed ancestor traps position:fixed, which parked the
+  // lightbox far down the page (you had to scroll to find it). A direct child of
+  // <body> is fixed to the viewport, so it centres on screen on mobile too.
+  var host = document.getElementById('dsModalHost');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'dsModalHost';
+    host.className = 'sge-ds';
+    document.body.appendChild(host);
+  }
+  if (m.parentNode !== host) host.appendChild(m);
   if (!f.getAttribute('src')) f.setAttribute('src', f.getAttribute('data-src'));
   m.classList.add('open');
+  document.body.style.overflow = 'hidden'; // stop the page scrolling behind it
   document.addEventListener('keydown', dsHowtoEsc);
 }
 function dsCloseHowto() {
@@ -1944,6 +1957,7 @@ function dsCloseHowto() {
   var f = document.getElementById('dsHowtoIframe');
   if (m) m.classList.remove('open');
   if (f) f.setAttribute('src', '');
+  document.body.style.overflow = '';
   document.removeEventListener('keydown', dsHowtoEsc);
 }
 function dsHowtoEsc(e) { if (e.key === 'Escape' || e.keyCode === 27) dsCloseHowto(); }
