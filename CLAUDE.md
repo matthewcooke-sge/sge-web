@@ -57,9 +57,15 @@ Each tool is two files in `tools/`:
 - Editing a tool = edit `tools/NAME.html`, bump its version, commit, push to
   `main`. That is all. Do NOT touch Squarespace; the loader there fetches
   whatever the file currently says.
-- After pushing, the human purges jsDelivr (https://www.jsdelivr.com/tools/purge)
-  to make it live immediately, then checks the footer version on the live page.
-- Remind the human to purge + check the version after you push.
+- After pushing, Claude purges jsDelivr automatically so the change goes live
+  immediately (do not leave this to the human). Hit the purge endpoint for each
+  changed file:
+  `curl -s "https://purge.jsdelivr.net/gh/matthewcooke-sge/sge-web@main/tools/NAME.html"`
+  A `"status": "finished"` response means it cleared. Then verify the CDN serves
+  the new version, e.g.
+  `curl -s "https://cdn.jsdelivr.net/gh/matthewcooke-sge/sge-web@main/tools/NAME.html" | grep -oE "BUILD v[0-9]+"`
+- Tell the human it is live and remind them to hard-refresh the Squarespace page
+  and confirm the footer version.
 
 ## Naming
 
