@@ -36,11 +36,10 @@ Each tool is two files in `tools/`:
    Removing them silently breaks spacing live. Leave them.
 
 4. **Share text must fit X's 280-char limit.** The share builder appends
-   " This is a proven solution. Demand it." plus a library link, which eats
-   ~90 characters. So each issue's `data-share` value must stay ~185 chars or
-   under. EXCEPTION: a `data-share` that already ends in "Demand it." is treated
-   as self-contained and posted verbatim with a bare link (no appended CTA); the
-   Palestine share uses this. When editing any share text, re-check the X length.
+   " Demand it." plus a bare link (~35 chars on X, where the link counts as 23).
+   So each issue's `data-share` should stay ~240 chars or under. A `data-share`
+   that already ends in "Demand it." is not doubled (so do not hand-append it;
+   let the builder add it). When editing any share text, re-check the X length.
 
 5. **"I demand" is for politicians, not journalists.** The rep/candidate/
    conversation letters keep "I demand". The media-outlet path
@@ -51,6 +50,14 @@ Each tool is two files in `tools/`:
 6. **Each tool stays ONE self-contained file.** All CSS and JS inline. No
    external build, no imports that need compiling. That is what lets it load via
    the fetch-and-inject loader and (as a fallback) paste into a Code Block.
+
+7. **Demand letters are auto-paragraphed.** `paragraphizeDemand()` inserts a
+   blank line before each "I demand ..." clause so the compose box and the
+   mailto/email bodies read as paragraphs, not a wall of text. Keep demand
+   action clauses starting with "I demand ..." so they break cleanly. For the
+   rare letter with no "I demand" clause (e.g. corporate-monsters), put a real
+   blank line inside the `data-demand` value where you want a break; the parser
+   preserves it and the function leaves it intact.
 
 ## How deploys work (so you push correctly)
 
