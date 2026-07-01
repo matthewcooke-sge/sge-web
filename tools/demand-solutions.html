@@ -1,0 +1,1695 @@
+<style>
+/* ==========================================================
+   SGE DEMAND SOLUTIONS TOOL v2
+   Design system: matches SGE Homepage / Feature Article / Boycott App
+   Scoped under .sge-ds to beat Squarespace specificity
+   ========================================================== */
+
+.sge-ds *, .sge-ds *::before, .sge-ds *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Squarespace injects margin, max-width, and text-align onto bare <p> and
+   <h*> inside Code Blocks. The universal `*` reset above (specificity 0,1,0)
+   LOSES to Squarespace's `.sqs-block p` (0,1,1), so those injected margins
+   win and our spacing gets eaten live (even though preview looks fine).
+   This element-scoped reset matches Squarespace's specificity (0,1,1) and,
+   loading from our own stylesheet, neutralises the injection. Each component
+   that needs spacing re-asserts it via `.sge-ds .class { ... !important }`.
+   NOTE: a `:where()` zero-specificity reset does NOT work here (it loses to
+   Squarespace's specific rules. The plain element-scoped reset is required. */
+.sge-ds p,
+.sge-ds h1, .sge-ds h2, .sge-ds h3, .sge-ds h4, .sge-ds h5, .sge-ds h6 {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+:root {
+  --bg:            #f0ede5;
+  --bg-alt:        #ebe7dc;
+  --bg-card:       #ffffff;
+  --ink:           #1a1a1a;
+  --ink-soft:      #555555;
+  --ink-mute:      #888888;
+  --rule:          #d8d3c5;
+  --rule-soft:     #e8e3d5;
+  --red:           #b80c0c;
+  --red-dark:      #8a0909;
+  --gold:          #c89432;
+  --green:         #2e6b34;
+  --serif-display: 'Libre Baskerville', Georgia, serif;
+  --serif-body:    'Lora', Georgia, serif;
+  --max-w:         960px;
+  --pad-h:         clamp(1.2rem, 5vw, 4rem);
+}
+
+.sge-ds {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Credo bar ── */
+.sge-ds .ds-credo {
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--serif-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0.45rem var(--pad-h);
+  border-bottom: 2px solid var(--red);
+}
+
+/* ── Header ── */
+.sge-ds .ds-header {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 2.2rem var(--pad-h) 0;
+}
+
+.sge-ds .ds-kicker {
+  font-family: var(--serif-display);
+  font-size: 0.68rem;
+  font-style: italic;
+  color: var(--red);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.65rem;
+}
+.sge-ds .ds-kicker::before,
+.sge-ds .ds-kicker::after {
+  content: '';
+  height: 1px;
+  background: var(--red);
+  flex: 1;
+  opacity: 0.35;
+}
+
+.sge-ds .ds-title {
+  font-family: var(--serif-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.9rem;
+}
+.sge-ds .ds-title span { color: var(--red); }
+
+.sge-ds .ds-deck {
+  font-family: var(--serif-body);
+  font-size: 1rem;
+  font-style: normal;
+  color: var(--ink);
+  max-width: 620px;
+  line-height: 1.7;
+  border-left: 3px solid var(--red);
+  padding: 0.15rem 0 0.15rem 1.4rem !important;
+  margin: 0 0 0 0.2rem !important;
+  box-sizing: border-box;
+}
+
+.sge-ds .ds-header-rule {
+  max-width: var(--max-w);
+  margin: 1.4rem auto 0;
+  padding: 0 var(--pad-h);
+}
+.sge-ds .ds-header-rule hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+}
+
+/* ══════════════════════════════════════════
+   MAIN LAYOUT: library left, action right
+   ══════════════════════════════════════════ */
+.sge-ds .ds-body {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 1.6rem var(--pad-h) 3rem;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 0 2.4rem;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .sge-ds .ds-body {
+    grid-template-columns: 1fr;
+    gap: 2rem 0;
+  }
+  }
+
+/* ══════════════════════════════════
+   LEFT: SOLUTION LIBRARY
+   ══════════════════════════════════ */
+.sge-ds .ds-library {
+  position: sticky;
+  top: 1rem;
+}
+@media (max-width: 720px) {
+  .sge-ds .ds-library {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
+.sge-ds .ds-zone-label {
+  font-family: var(--serif-display);
+  font-size: 0.62rem;
+  font-style: italic;
+  color: var(--red);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.sge-ds .ds-zone-label::after {
+  content: '';
+  height: 1px;
+  background: var(--rule);
+  flex: 1;
+}
+
+/* Numbered steps (1 Choose, 2 Make It Yours, 3 Send It) */
+.sge-ds .ds-nudge {
+  display: none;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--serif-body);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 2px;
+}
+.sge-ds .ds-nudge.show { display: block; }
+.sge-ds { counter-reset: ds-step; }
+.sge-ds .ds-step {
+  font-family: var(--serif-display);
+  font-size: 1.05rem;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  text-transform: none;
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.sge-ds .ds-step::before {
+  counter-increment: ds-step;
+  content: counter(ds-step);
+  flex-shrink: 0;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--red);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.sge-ds .ds-step::after {
+  content: '';
+  height: 1px;
+  background: var(--rule);
+  flex: 1;
+}
+
+/* Mobile filter bar */
+.sge-ds .ds-filter-bar {
+  display: none;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+@media (max-width: 720px) {
+  .sge-ds .ds-filter-bar { display: flex; }
+}
+.sge-ds .ds-filter-btn {
+  font-family: var(--serif-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.6rem;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.sge-ds .ds-filter-btn.active,
+.sge-ds .ds-filter-btn:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+/* Cluster groups */
+.sge-ds .ds-cluster {
+  margin-bottom: 1.2rem;
+}
+.sge-ds .ds-cluster-label {
+  padding: 0.4rem 0 0.5rem;
+  border-top: 1px solid var(--rule);
+  margin-bottom: 0.4rem;
+}
+.sge-ds .ds-cluster-name {
+  display: block;
+  font-family: var(--serif-display);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 0.15rem;
+}
+.sge-ds .ds-cluster-lie {
+  display: block;
+  font-family: var(--serif-body);
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* Issue cards */
+.sge-ds .ds-issue-card {
+  background: transparent;
+  border: 1px solid transparent;
+  border-left: 2px solid transparent;
+  padding: 0.6rem 0.7rem;
+  cursor: pointer;
+  transition: border-color 0.13s, background 0.13s;
+  position: relative;
+}
+.sge-ds .ds-issue-card:hover {
+  background: var(--bg-alt);
+  border-color: var(--rule);
+  border-left-color: var(--ink-mute);
+}
+.sge-ds .ds-issue-card.active {
+  background: var(--bg-card);
+  border-color: var(--rule);
+  border-left: 2px solid var(--red);
+}
+.sge-ds .ds-issue-card.active::after {
+  content: '→';
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--red);
+  font-family: var(--serif-display);
+  font-size: 0.75rem;
+}
+.sge-ds .ds-issue-headline {
+  font-family: var(--serif-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.sge-ds .ds-issue-tag {
+  font-size: 0.65rem;
+  color: var(--ink-mute);
+  margin-top: 0.2rem;
+  font-style: normal;
+}
+
+/* ══════════════════════════════════
+   RIGHT: ACTION PANEL
+   ══════════════════════════════════ */
+.sge-ds .ds-action-panel {
+  min-width: 0;
+}
+
+/* Selected issue display */
+.sge-ds .ds-selected-issue {
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.sge-ds .ds-selected-headline {
+  font-family: var(--serif-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.sge-ds .ds-selected-summary {
+  font-size: 0.92rem;
+  font-style: normal;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  border-left: 3px solid var(--red);
+  padding-left: 0.8rem;
+  margin-bottom: 0.7rem;
+}
+.sge-ds .ds-selected-summary.hidden { display: none; }
+
+
+/* Demand compose area */
+.sge-ds .ds-compose-label {
+  font-family: var(--serif-display);
+  font-size: 0.62rem;
+  font-style: italic;
+  color: var(--red);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.sge-ds .ds-compose-label::after {
+  content: '';
+  height: 1px;
+  background: var(--rule);
+  flex: 1;
+}
+
+.sge-ds .ds-demand-prompt {
+  font-family: var(--serif-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  margin-bottom: 0.7rem !important;
+}
+.sge-ds .ds-demand-prompt em {
+  color: var(--red);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.sge-ds .ds-demand-box {
+  width: 100%;
+  min-height: 180px;
+  padding: 1.1rem 1rem !important;
+  margin-top: 0.5rem !important;
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--ink);
+  background: var(--bg-card);
+  font-family: var(--serif-body);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--ink);
+  resize: vertical;
+  outline: none;
+  transition: border-top-color 0.15s;
+}
+.sge-ds .ds-demand-box:focus { border-top-color: var(--red); }
+.sge-ds .ds-demand-box::placeholder {
+  color: var(--ink-mute);
+  font-style: italic;
+}
+
+.sge-ds .ds-demand-meta {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.sge-ds .ds-btn {
+  font-family: var(--serif-display);
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.48rem 0.85rem;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.13s, color 0.13s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+}
+.sge-ds .ds-btn:hover { background: var(--ink); color: var(--bg); }
+.sge-ds .ds-btn.primary {
+  background: var(--red);
+  border-color: var(--red);
+  color: white;
+}
+.sge-ds .ds-btn.primary:hover { background: var(--red-dark); border-color: var(--red-dark); }
+.sge-ds .ds-btn.ghost {
+  border-color: var(--rule);
+  color: var(--ink-mute);
+  font-size: 0.62rem;
+}
+.sge-ds .ds-btn.ghost:hover { border-color: var(--ink-mute); background: transparent; color: var(--ink); }
+
+/* ── Send tabs ── */
+.sge-ds .ds-send-section {
+  margin-top: 1.4rem;
+}
+.sge-ds .ds-send-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 1.6rem !important;
+}
+.sge-ds .ds-send-tab {
+  font-family: var(--serif-display);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.85rem;
+  border: 1px solid transparent;
+  border-bottom: none;
+  cursor: pointer;
+  background: transparent;
+  color: var(--ink-soft);
+  transition: color 0.13s, background 0.13s, border-color 0.13s;
+  margin-bottom: -1px;
+}
+.sge-ds .ds-send-tab:hover {
+  color: var(--ink);
+  background: var(--bg-alt);
+}
+.sge-ds .ds-send-tab.active {
+  color: var(--red);
+  border-color: var(--rule);
+  border-bottom-color: var(--bg);
+  background: var(--bg);
+  border-top: 2px solid var(--red);
+}
+
+.sge-ds .ds-send-panel { display: none; }
+.sge-ds .ds-send-panel.active { display: block; padding-top: 0.4rem !important; }
+
+/* Country selector */
+.sge-ds .ds-country-row {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+.sge-ds .ds-country-btn {
+  font-family: var(--serif-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.55rem;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.sge-ds .ds-country-btn.active,
+.sge-ds .ds-country-btn:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* Lookup row */
+.sge-ds .ds-lookup-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.sge-ds .ds-input {
+  flex: 1;
+  padding: 0.52rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-top: 2px solid var(--ink);
+  background: var(--bg-card);
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  color: var(--ink);
+  outline: none;
+  min-width: 0;
+}
+.sge-ds .ds-input:focus { border-top-color: var(--red); }
+.sge-ds .ds-input::placeholder { color: var(--ink-mute); font-style: italic; }
+
+/* Rep result */
+.sge-ds .ds-rep-result {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--red);
+  padding: 0.8rem;
+  margin-bottom: 0.75rem;
+}
+.sge-ds .ds-rep-result.visible {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+.sge-ds .ds-rep-avatar {
+  width: 44px;
+  height: 44px;
+  background: var(--bg-alt);
+  border: 1px solid var(--rule);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  color: var(--ink-mute);
+  font-family: var(--serif-display);
+}
+.sge-ds .ds-rep-name {
+  font-family: var(--serif-display);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.sge-ds .ds-rep-meta {
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+  margin-top: 0.15rem;
+}
+
+/* AN embed instruction + wrapper */
+.sge-ds .ds-an-instruction {
+  background: var(--bg-alt);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--red);
+  padding: 0.8rem 1rem;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.sge-ds .ds-an-instruction strong {
+  display: block;
+  font-family: var(--serif-display);
+  font-size: 0.8rem;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+.sge-ds .ds-an-embed {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 1rem;
+}
+
+/* US flow: desktop shows embed, mobile shows link-out button */
+.sge-ds .ds-us-mobile { display: none; }
+.sge-ds .ds-us-mobile-btn {
+  display: block;
+  text-align: center;
+  font-size: 0.8rem !important;
+  padding: 0.7rem 1rem !important;
+}
+@media (max-width: 720px) {
+  .sge-ds .ds-us-desktop { display: none; }
+  .sge-ds .ds-us-mobile { display: block; }
+
+  /* Four send tabs do not fit in one row on a phone (Media Outlet clips off).
+     Lay them out as a 2x2 grid so all four are visible and tappable. */
+  .sge-ds .ds-send-tabs {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: none !important;
+    gap: 0.3rem;
+  }
+  .sge-ds .ds-send-tab {
+    border: 1px solid var(--rule) !important;
+    border-radius: 2px;
+    margin-bottom: 0 !important;
+    padding: 0.6rem 0.5rem !important;
+    text-align: center;
+    justify-content: center;
+    min-width: 0 !important;
+    width: 100% !important;
+    overflow-wrap: anywhere;
+  }
+  .sge-ds .ds-send-tab.active {
+    border-color: var(--red) !important;
+    border-top: 2px solid var(--red) !important;
+    background: var(--bg) !important;
+  }
+  /* Media rows: on a phone the name + long email + button collide. Allow the
+     row to wrap so the "Open Email" button drops to its own line when tight. */
+  .sge-ds .ds-media-item {
+    flex-wrap: wrap !important;
+    gap: 0.4rem 0.7rem !important;
+  }
+  .sge-ds .ds-media-meta { flex: 1 1 auto !important; min-width: 0; word-break: break-all; }
+  .sge-ds .ds-media-send { margin-left: auto !important; }
+}
+
+/* Manual note */
+.sge-ds .ds-manual-note {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  margin-bottom: 1rem !important;
+  font-style: normal;
+}
+
+/* Copy block */
+.sge-ds .ds-copy-block {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-top: 2px solid var(--ink);
+  padding: 0.9rem 1rem;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+  font-style: normal;
+  min-height: 60px;
+}
+
+/* ── Share bar ── */
+.sge-ds .ds-share-bar {
+  display: none;
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--rule);
+}
+.sge-ds .ds-share-bar.visible { display: block; }
+.sge-ds .ds-share-bar.ds-hide-sharebar { display: none !important; }
+.sge-ds .ds-share-headline {
+  font-family: var(--serif-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+.sge-ds .ds-share-copy {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  font-style: normal;
+  margin-bottom: 0.7rem !important;
+}
+.sge-ds .ds-share-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.sge-ds .ds-share-toggle input { accent-color: var(--red); }
+.sge-ds .ds-share-btns { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.9rem !important; }
+
+
+/* ── Media outlet list ── */
+.sge-ds .ds-media-notice {
+  background: var(--bg-alt);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--gold);
+  padding: 0.8rem 1rem;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-top: 0.6rem !important;
+  margin-bottom: 1rem !important;
+}
+/* Geometry-safe gap: a spacer that Squarespace cannot collapse, since it
+   styles <p>/content margins with !important but not custom-div height. */
+.sge-ds .ds-gap {
+  height: 1rem !important;
+  width: 100%;
+  flex-shrink: 0;
+}
+.sge-ds .ds-media-notice strong {
+  display: block;
+  font-family: var(--serif-display);
+  font-size: 0.8rem;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+.sge-ds .ds-media-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.sge-ds .ds-media-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 0.65rem 0.9rem;
+}
+.sge-ds .ds-media-name {
+  font-family: var(--serif-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+  flex: 1;
+}
+.sge-ds .ds-media-meta {
+  font-size: 0.72rem;
+  color: var(--ink-mute);
+  font-style: normal;
+  flex: 2;
+}
+.sge-ds .ds-media-copyaddr {
+  font-family: var(--serif-body);
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 2px;
+  transition: color 0.12s;
+}
+.sge-ds .ds-media-copyaddr:hover {
+  color: var(--red);
+  text-decoration-color: var(--red);
+}
+.sge-ds .ds-media-send {
+  flex-shrink: 0;
+  font-size: 0.62rem !important;
+  padding: 0.35rem 0.7rem !important;
+}
+
+/* ── Conversion card ── */
+.sge-ds .ds-convert-card {
+  display: none;
+  margin-top: 1.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--red);
+  padding: 1.4rem 1.4rem 1.3rem;
+}
+.sge-ds .ds-convert-card.visible { display: block; }
+.sge-ds .ds-convert-eyebrow {
+  font-family: var(--serif-display);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 0.55rem;
+}
+.sge-ds .ds-convert-headline {
+  font-family: var(--serif-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 0.65rem;
+}
+.sge-ds .ds-convert-formats {
+  font-family: var(--serif-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  margin-bottom: 0.55rem;
+}
+.sge-ds .ds-convert-body {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+}
+.sge-ds .ds-convert-card .ds-btn.primary {
+  padding: 0.65rem 1.3rem !important;
+  margin: 0 !important;
+  display: inline-block !important;
+  line-height: 1.2 !important;
+}
+.sge-ds .ds-convert-footer {
+  font-family: var(--serif-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-top: 0.75rem;
+}
+
+/* ── Footer ── */
+.sge-ds .ds-footer {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--pad-h) 2.5rem;
+  text-align: center;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.5rem;
+}
+.sge-ds .ds-footer-ornament {
+  font-size: 1.1rem;
+  color: var(--rule);
+  margin-bottom: 0.5rem;
+}
+.sge-ds .ds-footer-note {
+  font-family: var(--serif-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.sge-ds .ds-footer-note a { color: var(--red); text-decoration: none; }
+.sge-ds .ds-footer-note a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="sge-ds">
+<!-- SGE Demand Solutions BUILD v2 -->
+
+
+<!-- ── Credo bar ── -->
+<div class="ds-credo">
+  Survivors Guide to Earth &nbsp;·&nbsp; Ad-Free &nbsp;·&nbsp; Member-Funded &nbsp;·&nbsp; No Sponsors &nbsp;·&nbsp; No Billionaire Backers &nbsp;·&nbsp; Free Tool
+</div>
+
+<!-- ── Header ── -->
+<header class="ds-header">
+  <div class="ds-kicker">Survivors Kit</div>
+  <h1 class="ds-title">Demand the <span>Solutions.</span></h1>
+  <div class="ds-deck" style="padding-left:1.4rem!important;margin-left:0.2rem!important;border-left:3px solid #b80c0c!important;">
+    Affordability. Immigration. Climate. It's not complicated.
+  </div>
+</header>
+<div class="ds-header-rule"><hr></div>
+
+<!-- ══ MAIN BODY ══ -->
+<main class="ds-body">
+
+  <!-- ════════════════════════
+       LEFT: SOLUTION LIBRARY
+       ════════════════════════ -->
+  <aside class="ds-library">
+    <div class="ds-zone-label ds-step">Choose a Solution</div>
+
+    <!-- Mobile filter -->
+    <div class="ds-filter-bar">
+      <button class="ds-filter-btn active" onclick="filterCluster('all', this)">All</button>
+      <button class="ds-filter-btn" onclick="filterCluster('scarcity', this)">Scarcity</button>
+      <button class="ds-filter-btn" onclick="filterCluster('enemies', this)">Enemies</button>
+      <button class="ds-filter-btn" onclick="filterCluster('inevitability', this)">Inevitability</button>
+    </div>
+
+    <!-- CLUSTER 1: False Scarcity -->
+    <div class="ds-cluster" data-cluster="scarcity">
+      <div class="ds-cluster-label"><span class="ds-cluster-name">Lie #1: False Scarcity</span><span class="ds-cluster-lie">"There isn't enough."</span></div>
+
+      <div class="ds-issue-card" data-id="affordability" data-share="Everything costs more while wages stall, because a few hoard housing, land, and essential goods. The fix: tax asset hoarding, not work. Rein in rent-gouging. Break up monopolies." data-cluster="scarcity"
+        data-headline="Affordability &amp; the Cost of Living"
+        data-summary="Everything costs more. Wages stall. Because a small group is hoarding housing, land, essential goods. They don't add value. They wall off access and charge rent. Asset hoarding is a crime."
+        data-demand="I am writing to demand action on the cost-of-living crisis. Working people cannot afford housing, food, healthcare, or basic security, while corporate profits and asset prices hit record highs. You call it inflation. We call it the devaluing of our labor. This is the predictable result of an economy that rewards hoarding wealth over improving services: a small group profits by capturing what the rest of us need and charging for access. I demand you act on the causes, not the symptoms. Tax extreme wealth and asset hoarding, not wages or work. Rein in rent-gouging and corporate landlord speculation. Break up the monopolies strangling our food, energy, housing, and healthcare markets. Affordability is not a mystery to be managed. It is an economic crisis caused by a political one, and you have the power to end it.">
+        <div class="ds-issue-headline">Affordability &amp; the Cost of Living</div>
+        <div class="ds-issue-tag">Economy &nbsp;&middot;&nbsp; Rights</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="poverty" data-share="1 in 3 humans can&#x27;t afford food, housing, or healthcare. The 1% holds half of all wealth. The fix MLK and FDR both named: a guaranteed income. Decades of data show it works." data-cluster="scarcity"
+        data-headline="End Poverty with a Guaranteed Income"
+        data-summary="1 in 3 humans can't afford food, housing, or healthcare. The 1% holds half of all wealth. MLK's solution: guaranteed income. FDR's solution: guaranteed income. The data backs them both."
+        data-demand="I am writing to demand the elimination of poverty as a public obligation, not a charity. More than a third of humanity cannot afford life's essentials. Dr. King called a guaranteed income 'the simplest and most effective solution.' FDR said world peace depends on it. Decades of data show guaranteed income does not reduce work. It restores freedom and dignity. Income is one pillar. The others are universal healthcare, publicly funded housing, education, and nutrition. These are not separate policies. They are one integrated guarantee: a floor beneath every person below which no one is permitted to fall. We don't lack resources. We give them away to the private sector instead of using them to benefit everyone. I demand you introduce legislation treating poverty elimination as a single, fully funded public commitment.">
+        <div class="ds-issue-headline">End Poverty with a Guaranteed Income</div>
+        <div class="ds-issue-tag">Economy &nbsp;&middot;&nbsp; Rights</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="housing" data-share="The US has 17 million vacant homes while millions go unhoused. The fix: tax land speculation, fund social housing, end corporate bulk-buying. Finland already proved it works." data-cluster="scarcity"
+        data-headline="Housing as a Human Right"
+        data-summary="Universal housing for the planet would cost less than 1% of global GDP. There are 17 million vacant homes in the USA alone. The housing crisis is speculation and profiteering, not scarcity."
+        data-demand="I am writing to demand housing be treated as public infrastructure, not a speculative asset. One in four people on Earth lives in inadequate housing. The USA has over 17 million vacant homes, enough to house the unhoused 30 times over. Finland ended homelessness in 2008 by building homes and providing services. We know what works. I demand legislation to implement land value tax reform, fund social housing at scale, and end corporate bulk-buying of residential properties. But housing alone is not the solution. Shelter is one pillar of a guaranteed floor that must include income, healthcare, education, and nutrition. Poverty cannot be ended one symptom at a time. I demand you treat its elimination as a single, integrated public obligation.">
+        <div class="ds-issue-headline">Housing as a Human Right</div>
+        <div class="ds-issue-tag">Economy &nbsp;&middot;&nbsp; Rights</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="healthcare" data-share="Half of humanity lacks basic care; medical bills bankrupt 100 million yearly. The fix: single-payer universal healthcare. A Lancet study says it saves $450 billion a year, covers all." data-cluster="scarcity"
+        data-headline="Universal Healthcare"
+        data-summary="Over half of humanity lacks basic healthcare. 100 million are pushed into poverty by medical costs every year. Universal healthcare for all humanity costs less than 56 days of global weapons spending."
+        data-demand="I am writing to demand Medicare for All. The United States pays nearly twice what peer nations pay per capita for healthcare while leaving millions uninsured and recording worse outcomes. A Lancet study estimates a single-payer system would save over $450 billion annually while covering everyone. Universal healthcare for all of humanity would cost less than what we spend on weapons in 56 days. I demand you introduce or co-sponsor single-payer universal healthcare legislation without delay. Healthcare is not a market good. It is a human obligation.">
+        <div class="ds-issue-headline">Universal Healthcare</div>
+        <div class="ds-issue-tag">Rights &nbsp;&middot;&nbsp; Economy</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="hunger" data-share="We grow more food than people can eat; a third is wasted while billions are fed food that causes cancer. The fix: universal school meals, food sovereignty, land rights for small farmers." data-cluster="scarcity"
+        data-headline="End Hunger &amp; Toxic Foods"
+        data-summary="We grow more than enough food for every person on Earth. A third is wasted. Billions are fed food that causes cancer and diabetes. Scarcity on one end, toxicity on the other. We know how to solve it."
+        data-demand="I am writing to demand food be treated as a public obligation, not a commodity. We already grow far more food than there are people to eat it. The World Food Programme says $40 billion per year would end global hunger. Meanwhile US billionaires' wealth grew by over $1 trillion in a single year. I demand cold-chain infrastructure investment, regional food sovereignty protections, universal school meals, land and water rights for small farmers, public and community grocery options that carry local food where corporate chains gouge or abandon communities, and a publicly held global food reserve. The United States must affirm food as a universal human right.">
+        <div class="ds-issue-headline">End Hunger &amp; Toxic Foods</div>
+        <div class="ds-issue-tag">Economy &nbsp;&middot;&nbsp; Rights</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="labor" data-share="The weekend, the 8-hour day, the middle class: every worker gain came from unions. The fix: the right to organize in every workplace, a ban on union-busting, and union democracy." data-cluster="scarcity"
+        data-headline="The Right to Organize"
+        data-summary="Every gain people ever won, the middle class, the weekend, the eight-hour day, came from organized labor. Strong unions, democratically run, are how we have any basic rights."
+        data-demand="I am writing to demand the full restoration of the right to organize, paired with real union accountability. Every major gain working people have ever won, fair wages, the weekend, the entire post-war middle class, came from collective bargaining, not corporate goodwill. That is exactly why union power has been deliberately dismantled for decades. I demand you guarantee the right to organize in every workplace, ban union-busting and the misclassification of workers, and prosecute wage theft as the crime it is. At the same time, I demand union democracy: transparent finances, elected and accountable leadership, and a firm rule that no contract, including police contracts, can shield its members from public accountability or override civil rights. Collective bargaining for fair conditions is sacred. Immunity from oversight is not. A worker alone takes what they are given. Workers together, accountable to each other and the public, set the terms.">
+        <div class="ds-issue-headline">The Right to Organize</div>
+        <div class="ds-issue-tag">Economy &nbsp;&middot;&nbsp; Rights</div>
+      </div>
+    </div><!-- /cluster scarcity -->
+
+    <!-- CLUSTER 2: Manufactured Enemies -->
+    <div class="ds-cluster" data-cluster="enemies">
+      <div class="ds-cluster-label"><span class="ds-cluster-name">Lie #2: Manufactured Enemies</span><span class="ds-cluster-lie">"Incompatible. Criminal. Taking our jobs."</span></div>
+
+      <div class="ds-issue-card" data-id="immigration" data-share="123 million forced from home by war, inequality, and climate, made by the richest nations. The fix: treat it as a global emergency, fund climate and poverty solutions, end war for profit." data-cluster="enemies"
+        data-headline="Migration Crisis"
+        data-summary="123 million people have been forced from home by permanent war, inequality, and climate disaster, largely created by the world's wealthiest nations. Militarizing borders criminalizes survivors. The migration crisis is manmade."
+        data-demand="I am writing to demand root-cause solutions to the migration crisis. Nearly 123 million people have been forced from their homes by permanent war, manmade inequality, and environmental disaster, largely created by the foreign and economic policies of the world's wealthiest nations. Militarizing borders criminalizes survivors while shirking responsibility. Immigrants contribute over $6.7 trillion annually to global GDP. I demand you declare the migration crisis a global emergency, prioritize climate adaptation and poverty eradication as security investments, and end permanent war for profit, which is what drives displacement in the first place. Solve the cause and you end the crisis, while protecting the universal right to move with dignity.">
+        <div class="ds-issue-headline">Migration Crisis</div>
+        <div class="ds-issue-tag">Rights &nbsp;&middot;&nbsp; Humanitarian</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="nationalism" data-share="72% of humanity lives under regimes that punish dissent. Nationalism divides and conquers. The fix: planetary citizenship and enforced human rights for every person on Earth." data-cluster="enemies"
+        data-headline="End Nationalism as a Tool of Control"
+        data-summary="72% of humanity lives under regimes that punish dissent. Nationalism is identity management to keep the world's people divided and conquered. Universal human rights is the only winning strategy."
+        data-demand="I am writing to demand you champion universal human rights over the same nationalist division that's caused two world wars and is driving us toward a third. 72% of humanity now lives under regimes that punish dissent. Nationalism, as Einstein said, is 'an infantile disease.' It is a tool ruling classes use to divide and conquer. I demand you support a global charter of planetary citizenship, public ownership of essential infrastructure, and real enforcement of universal human rights: every person on Earth, regardless of origin.">
+        <div class="ds-issue-headline">End Nationalism as a Tool of Control</div>
+        <div class="ds-issue-tag">Democracy &nbsp;&middot;&nbsp; Rights</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="fascism" data-share="FDR named it: fascism is private power owning government. The fix is his Economic Bill of Rights: guaranteed jobs, housing, healthcare, education. Break up monopolies. Tax extreme wealth." data-cluster="enemies"
+        data-headline="Defeat Fascism"
+        data-summary="FDR said fascism is private power owning government: pushing fear, racism, militarism, blaming migrants for crises the fascists themselves create. The permanent fix: break up the corporations, tax wealth, guarantee economic rights."
+        data-demand="In 1938, FDR warned us: 'The liberty of a democracy is not safe if the people tolerate the growth of private power to a point where it becomes stronger than their democratic state itself. That, in its essence, is Fascism.' I demand you act on FDR's 1944 Economic Bill of Rights: guaranteed employment, fair wages, adequate housing, medical care, and education for every citizen. Break up all monopolies. Tax extreme wealth. Guarantee economic rights. These rights are not left or right. They are the foundation of democracy.">
+        <div class="ds-issue-headline">Defeat Fascism</div>
+        <div class="ds-issue-tag">Democracy &nbsp;&middot;&nbsp; Rights</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="militarism" data-share="We waste $2.4 trillion a year on weapons while billions go without. Real security is meeting human needs. The fix: cut military spending, fund housing, healthcare, education, rights for all." data-cluster="enemies"
+        data-headline="End Militarism"
+        data-summary="Militarism has collapsed every empire in world history. We spend $2.4 trillion a year on weapons. 10% of that would eradicate extreme poverty. It is driving our most likely extinction scenario: climate collapse and nuclear war."
+        data-demand="I am writing to demand a radical redirection of military spending. The world wastes over $2.4 trillion annually on weapons while billions of human beings go without food, shelter, or healthcare. 10% of that spending could begin eradicating extreme poverty and funding climate repair. As Dr. King said: 'The choice today is not between violence and nonviolence. It is between nonviolence and nonexistence.' I demand you introduce legislation to cut military spending by a minimum of 25% and redirect those funds to guaranteed housing, healthcare, education, and climate infrastructure.">
+        <div class="ds-issue-headline">End Militarism</div>
+        <div class="ds-issue-tag">Democracy &nbsp;&middot;&nbsp; Planet</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="palestine" data-share="1/2 of humanity has legit claims to the Holy Land. Ethnic cleansing / partition makes Islam a permanent enemy / fuels forever wars. The fix isn&#x27;t a Jewish or Islamic state. It&#x27;s equal rights for all &amp; right of return. Demand it." data-cluster="enemies"
+        data-headline="Equal Rights for All in Palestine"
+        data-summary="Half of humanity has a claim to the Holy Land. Ethnic cleansing / partition of Palestine is the excuse used to make Islam a permanent enemy and fuel forever wars. The fix isn't a Jewish or Islamic state. It's equal rights for all. Right of return. Reparations."
+        data-demand="I am writing to demand equal rights for all people in historic Palestine. Half of humanity has a claim to the Holy Land. Ethnic cleansing / partition of Palestine is the excuse used to make Islam a permanent enemy and fuel forever wars. The fix isn&#x27;t a Jewish or Islamic state. It&#x27;s equal rights for all. Right of return. Reparations. The current arrangement, a state defined by ethnic and religious exclusivity, enforced by military occupation and funded by US and European taxpayers, is indefensible under any moral framework, including the Abrahamic traditions that make this land sacred to half of humanity. The solution is not partition or managed apartheid. It is a single democratic state guaranteeing equal rights for all its inhabitants, regardless of religion or ethnicity. Palestinian right of return must be recognised. Reparations for decades of dispossession must be paid. The United States must end all military and financial support for the occupation, remove its veto shield at the United Nations, and support a transition to a universal rights state. A free and equal Palestine would be the greatest single contribution to world peace of our lifetimes. I demand you act accordingly.">
+        <div class="ds-issue-headline">Equal Rights for All in Palestine</div>
+        <div class="ds-issue-tag">Rights &nbsp;&middot;&nbsp; Humanitarian</div>
+      </div>
+    </div><!-- /cluster enemies -->
+
+    <!-- CLUSTER 3: Manufactured Inevitability -->
+    <div class="ds-cluster" data-cluster="inevitability">
+      <div class="ds-cluster-label"><span class="ds-cluster-name">Lie #3: Fake Inevitability</span><span class="ds-cluster-lie">"This is just how it works."</span></div>
+
+      <div class="ds-issue-card" data-id="corporate-monsters" data-share="When a product becomes infrastructure (housing, energy, food) it shouldn&#x27;t be a private profit machine. The fix: break up the monopolies and bring that infrastructure into public ownership." data-cluster="inevitability"
+        data-headline="Break Up Corporate Monopolies"
+        data-summary="The Fortune 1000 isn't a list of great businesses. it's a list of corporations that captured markets to extract maximum private wealth. The consequence: six crimes against humankind driving us to extinction."
+        data-demand="I am writing to demand the breakup of corporate monopolies. Once a product or service becomes infrastructure (housing, healthcare, energy, food, communication, transport) it must operate as a utility. Shared technologies must be regulated by publicly accountable experts and made open source, so local businesses can emerge, invent, and innovate. Think of the electric outlet: anyone can build an appliance that meets the standard and plug in. For private enterprise to be free to thrive, anywhere corporations dominate essential markets, a well-funded public option must give every person a non-profit alternative. We must retain the right to repair, to build, to innovate on shared platforms. Small businesses, builders, and community co-operatives deserve the public subsidies and legal support currently captured by corporations. Every empire that let private monopolies capture public assets has collapsed: Rome's slave estates, Britain's East India Company, America's Gilded Age. Break up the monopolies so stability and prosperity return.">
+        <div class="ds-issue-headline">Break Up Corporate Monopolies</div>
+        <div class="ds-issue-tag">Economy &nbsp;&middot;&nbsp; Democracy</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="ai" data-share="AI is trained on the whole library of human achievement, which belongs to all of us. The fix: public ownership and democratic governance of AI, with its dividends shared by everyone." data-cluster="inevitability"
+        data-headline="Public Ownership of AI"
+        data-summary="AI is the most powerful pattern prediction tool ever built, trained on the entire library of human achievement. That library belongs to all humankind. So does the technology. So do its dividends."
+        data-demand="I am writing to demand public ownership and democratic governance of artificial intelligence. AI is the most powerful tool humanity has ever built, and right now it is being captured by the same few who already own everything else. At its core, AI is a mass-scale pattern recognition and prediction engine, trained on the collective library of human achievement: our writing, our art, our science, our labor. That library belongs to all of us. Its dividends must too. The crises AI accelerates are a direct extension of our existing economic system: an extraction machine designed for the few to control the many. As AI multiplies productivity, it must not multiply poverty. The wealth it generates must fund a guaranteed universal basic income and the abolition of poverty. Automation should benefit people, not replace them. I demand: public ownership over the collective library of human achievement that AI is built on. AI dividends shared by all of humanity, its true stakeholders. Regulatory bodies composed of independent subject-matter experts with no personal profit motive. Data centers required to run on renewable energy without draining the public water and power that communities depend on. And a hard line: AI must never serve an unaccountable military-industrial complex or an ever-expanding police state. Local autonomy must be balanced with global standards. The tools of human achievement must serve humanity, not a caste system built to own it.">
+        <div class="ds-issue-headline">Public Ownership of AI</div>
+        <div class="ds-issue-tag">Democracy &nbsp;&middot;&nbsp; Economy</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="media" data-share="Six corporations control 90% of US media. This isn&#x27;t a market, it&#x27;s mass thought control. The fix: enforce anti-monopoly law, cap media ownership, and fund public media." data-cluster="inevitability"
+        data-headline="Break Up Media Monopolies"
+        data-summary="Six corporations control 90% of US media. This is not diversity. Anti-monopoly law and public media funding are the structural solutions."
+        data-demand="I am writing to demand immediate action on media monopoly. Six corporations control approximately 90% of US media. This is not a natural market outcome. It is the result of regulatory capture and the rollback of anti-trust enforcement. The predictable result is policy that serves owners rather than citizens. I demand you enforce anti-monopoly law, cap media ownership, and restore and dramatically expand public media funding. A free press cannot exist inside a private monopoly.">
+        <div class="ds-issue-headline">Break Up Media Monopolies</div>
+        <div class="ds-issue-tag">Democracy &nbsp;&middot;&nbsp; Media</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="money-politics" data-share="Citizens United made unlimited corporate election spending legal, so policy serves donors, not us. The fix: full public financing of federal elections, and overturn Citizens United." data-cluster="inevitability"
+        data-headline="End Corporate Money in Politics"
+        data-summary="Unlimited corporate money in politics is not free speech. It is systemic corruption. Public campaign financing has worked everywhere it's been tried."
+        data-demand="I am writing to demand public campaign finance reform. Citizens United made unlimited corporate spending in elections legal. The predictable result is policy that serves donors rather than constituents. Public campaign financing, as practiced in various states and peer nations, demonstrably produces more representative outcomes. I demand you co-sponsor legislation to establish full public financing of federal elections, and overturn Citizens United.">
+        <div class="ds-issue-headline">End Corporate Money in Politics</div>
+        <div class="ds-issue-tag">Democracy</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="education" data-share="Schools mass-produce compliant workers, with testing that kills creativity. The fix: teach how the world actually works, real build/grow/repair skills, and end high-stakes testing." data-cluster="inevitability"
+        data-headline="Retool Public Education"
+        data-summary="The modern school system is designed to manufacture obedient workers and willing soldiers, not curious, creative, and capable humans. False histories teach kids to worship systems of control and fear their neighbors. A public that can't understand the world can't fix it."
+        data-demand="I am writing to demand a fundamental retooling of public education. Our schools were built to mass-produce two things: compliant workers and willing soldiers. Standardized testing rewards obedience and kills creativity, while sanitized, nationalist histories teach children to fear their neighbors, worship archaic power structures, and accept the very systems driving our economic crises. A people who cannot understand how the world works cannot change it, which is exactly how concentrated power prefers it. I demand we teach children how the world actually works: how to build housing, grow food, generate clean energy, alongside honest history, mathematics, science, and the ethics beneath them. Restore apprenticeship and mentorship so the young learn from working adults instead of being isolated from them. End high-stakes testing as the measure of a child. An educated, capable, free-thinking public is the foundation of democracy, and the first thing tyranny dismantles.">
+        <div class="ds-issue-headline">Retool Public Education</div>
+        <div class="ds-issue-tag">Democracy &nbsp;&middot;&nbsp; Rights</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="street-crime" data-share="The US jails more people than any nation in history and still leads the developed world in violence. The fix: restorative justice and abolishing poverty. Both are proven to cut crime." data-cluster="inevitability"
+        data-headline="End Mass Incarceration"
+        data-summary="The US imprisons more people than any nation in history. $210 billion a year on policing and prisons, and still leads the developed world in violence. Because we're treating symptoms. The solutions are proven."
+        data-demand="I am writing to demand a structural shift from incarceration to prevention. The United States holds nearly 2 million people behind bars, spending more than any nation in history on policing and prisons, while violence and reoffending remain among the highest in the developed world. Community intervention programs in Richmond, Glasgow, and cities in Portugal and Sweden have cut violence by more than half at a fraction of the cost. Every dollar invested in prevention saves $4 to $7 in reduced crime, court, and prison costs. I demand you redirect law enforcement budgets toward stable employment, universal healthcare, mentorship, education, and restorative justice programmes.">
+        <div class="ds-issue-headline">End Mass Incarceration</div>
+        <div class="ds-issue-tag">Rights &nbsp;&middot;&nbsp; Economy</div>
+      </div>
+
+      <div class="ds-issue-card" data-id="climate" data-share="It isn&#x27;t a climate crisis, it&#x27;s a political crisis: $7 trillion a year goes to fossil fuel subsidies. The fix: mass adaptation and replacing the global energy system with renewables." data-cluster="inevitability"
+        data-headline="Climate Emergency Response"
+        data-summary="The climate crisis is existential. Every continent is experiencing atmospheric chaos. Governments spend $7 trillion a year subsidizing the industries driving the destruction. We know how to reverse it."
+        data-demand="I am writing to demand immediate, structural climate action. Every continent is experiencing megafires, droughts, floods, and crop failures. Yet governments spend over $7 trillion a year subsidizing the fossil fuel industries driving the destruction, more than the estimated $6 trillion per year needed to transition to renewables and protect the biosphere. The math and science are unambiguous. I demand you introduce legislation to immediately end fossil fuel subsidies and redirect those funds to renewable grids, reforestation, regenerative farming, mass transit, and climate-resilient housing. I also demand fully funded retraining and transition support for workers in fossil fuel and extractive industries, so the green transition does not leave communities behind. 'Climate' is not an issue. Human beings impact everything in this world. It is time we took responsibility for our actions.">
+        <div class="ds-issue-headline">Climate Emergency Response</div>
+        <div class="ds-issue-tag">Planet &nbsp;&middot;&nbsp; Economy</div>
+      </div>
+    </div><!-- /cluster inevitability -->
+
+  </aside><!-- /ds-library -->
+
+
+  <!-- ════════════════════════
+       RIGHT: ACTION PANEL
+       ════════════════════════ -->
+  <section class="ds-action-panel">
+
+    <!-- Selected issue display -->
+    <div class="ds-selected-issue">
+      <div class="ds-selected-headline" id="selectedHeadline">Proven, data-driven solutions have existed for decades.</div>
+      <div class="ds-selected-summary" id="selectedSummary">But keeping them hidden is profitable. So we must demand they're covered by media, acted on by our reps, and reclaimed by our communities, so we can build parallel systems that replace the status quo.</div>
+    </div>
+
+    <!-- Compose -->
+    <div class="ds-zone-label ds-step">Make It Yours</div>
+    <p class="ds-demand-prompt">This is a proven solution. <em>Demand it.</em></p>
+    <textarea class="ds-demand-box" id="demandBox"
+      placeholder="Choose a Solution and your demand will appear here."></textarea>
+    <div class="ds-demand-meta">
+      <button class="ds-btn primary" onclick="copyDemandPrimary(this)">Copy Demand</button>
+      <button class="ds-btn ghost" onclick="reloadDemand()">↺ Reload original</button>
+      <button class="ds-btn ghost" onclick="clearDemand()">Clear</button>
+    </div>
+
+    <!-- Send section -->
+    <div class="ds-send-section">
+      <div class="ds-zone-label ds-step ds-step-send">Send It</div>
+      <div class="ds-send-tabs">
+        <button class="ds-send-tab active" onclick="switchTab('rep', this)">Rep in Office</button>
+        <button class="ds-send-tab" onclick="switchTab('candidate', this)">Candidate</button>
+        <button class="ds-send-tab" onclick="switchTab('conversation', this)">Conversation<br>&amp; Social Media</button>
+        <button class="ds-send-tab" onclick="switchTab('media', this)">Media Outlet</button>
+      </div>
+
+      <!-- Panel: Rep in Office -->
+      <div class="ds-send-panel active" id="panel-rep">
+        <div class="ds-country-row">
+          <button class="ds-country-btn active" onclick="switchCountry('US', this)">🇺🇸 US</button>
+          <button class="ds-country-btn" onclick="switchCountry('UK', this)">🇬🇧 UK</button>
+          <button class="ds-country-btn" onclick="switchCountry('CA', this)">🇨🇦 Canada</button>
+          <button class="ds-country-btn" onclick="switchCountry('AU', this)">🇦🇺 Australia</button>
+          <button class="ds-country-btn" onclick="switchCountry('OTHER', this)">🌍 Other</button>
+        </div>
+
+        <div id="country-US">
+          <!-- DESKTOP: inline Action Network embed -->
+          <div class="ds-us-desktop">
+            <div class="ds-an-instruction">
+              <strong>1. Copy your demand above. 2. Paste it into the letter below. 3. Add your ZIP and send.</strong>
+              Action Network routes your letter to your specific representatives. Your demand text stays yours to edit.
+            </div>
+            <div class="ds-an-embed">
+              <link href='https://actionnetwork.org/css/style-embed-v3.css' rel='stylesheet' type='text/css' /><script src='https://actionnetwork.org/widgets/v6/letter/demand-real-solutions-from-congress?format=js&source=widget'></script><div id='can-letter-area-demand-real-solutions-from-congress' style='width: 100%'><!-- this div is the target for our HTML insertion --></div>
+            </div>
+          </div>
+          <!-- MOBILE: link out to Action Network page (embed button is unreliable on mobile) -->
+          <div class="ds-us-mobile">
+            <div class="ds-an-instruction">
+              <strong>1. Tap Copy Demand above. 2. Compose your letter. 3. Paste, add your ZIP, and send.</strong>
+              The letter opens on Action Network, which routes it to your specific representatives.
+            </div>
+            <a class="ds-btn primary ds-us-mobile-btn" href="https://actionnetwork.org/letters/demand-real-solutions-from-congress" target="_blank" rel="noopener" onclick="dsTrackDemandSubmitted(); showShareBar()">Compose Your Letter →</a>
+          </div>
+        </div>
+
+        <div id="country-UK" style="display:none">
+          <div class="ds-lookup-row">
+            <input class="ds-input" id="postcodeUK" type="text" placeholder="Your postcode (e.g. W11 2BQ)">
+            <button class="ds-btn primary" onclick="lookupUK()">Find My MP →</button>
+          </div>
+          <div class="ds-rep-result" id="repResultUK">
+            <div class="ds-rep-avatar">IMG</div>
+            <div>
+              <div class="ds-rep-name" id="repNameUK"></div>
+              <div class="ds-rep-meta" id="repMetaUK"></div>
+            </div>
+          </div>
+          <div id="ukSendArea" style="display:none; margin-top:0.5rem;">
+            <button class="ds-btn primary" id="ukMailBtn">Send via Email →</button>
+            <p style="font-size:0.72rem;color:var(--ink-mute);margin-top:0.35rem!important;font-style:italic;">Opens your email client with your demand pre-filled.</p>
+          </div>
+        </div>
+
+        <div id="country-CA" style="display:none">
+          <div class="ds-lookup-row">
+            <input class="ds-input" id="postalCA" type="text" placeholder="Your postal code (e.g. M5V 2T6)">
+            <button class="ds-btn primary" onclick="lookupCA()">Find My MP →</button>
+          </div>
+          <div class="ds-rep-result" id="repResultCA">
+            <div class="ds-rep-avatar">IMG</div>
+            <div>
+              <div class="ds-rep-name" id="repNameCA"></div>
+              <div class="ds-rep-meta" id="repMetaCA"></div>
+            </div>
+          </div>
+          <div id="caSendArea" style="display:none; margin-top:0.5rem;">
+            <button class="ds-btn primary" id="caMailBtn">Send via Email →</button>
+          </div>
+        </div>
+
+        <div id="country-AU" style="display:none">
+          <p class="ds-manual-note">Enter your postcode, we'll direct you to the right contact page with your demand ready to copy.</p>
+          <div class="ds-lookup-row">
+            <input class="ds-input" id="postcodeAU" type="text" placeholder="Your postcode">
+            <button class="ds-btn primary" onclick="lookupAU()">Find My MP →</button>
+          </div>
+        </div>
+
+        <div id="country-OTHER" style="display:none">
+          <p class="ds-manual-note">Find your representative's contact page, copy your demand, and send it directly. Your words are what matter.</p>
+          <button class="ds-btn" onclick="copyDemand()">Copy My Demand</button>
+        </div>
+      </div><!-- /panel-rep -->
+
+      <!-- Panel: Candidate -->
+      <div class="ds-send-panel" id="panel-candidate">
+        <p class="ds-manual-note">Find their contact page (campaign site, social DMs, public email) and send the demand directly. Make them answer for it on the record.</p>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:1rem!important;">
+          <button class="ds-btn primary" onclick="copyDemand()">Copy My Demand</button>
+        </div>
+        <p style="font-size:0.72rem;color:var(--ink-mute);margin-top:0.7rem!important;font-style:italic;">Copy, then paste to your candidate's inbox.</p>
+      </div>
+
+      <!-- Panel: Conversation -->
+      <div class="ds-send-panel" id="panel-conversation">
+        <p class="ds-manual-note">Post the punchy version, with a link to the library. Pick a platform.</p>
+        <div class="ds-gap"></div>
+        <p class="ds-share-copy" id="convoPreview">Your post will lead with the solution and link to the library.</p>
+        <div class="ds-share-btns">
+          <button class="ds-btn" onclick="shareToFacebook()">Facebook</button>
+          <button class="ds-btn" onclick="shareToBluesky()">Bluesky</button>
+          <button class="ds-btn" onclick="shareToThreads()">Threads</button>
+          <button class="ds-btn" onclick="shareToX()">X</button>
+          <button class="ds-btn ghost" onclick="copyShareLink()">Copy Link</button>
+        </div>
+      </div>
+
+
+      <!-- Panel: Media Outlet -->
+      <div class="ds-send-panel" id="panel-media">
+        <p class="ds-manual-note">The corporate press rarely holds corporate power accountable. Tap <strong>Open Email</strong> to launch your mail app, or tap the <strong>address</strong> to copy it / paste into your own webmail.</p>
+        <div class="ds-media-notice">
+          <strong>Make it yours before you send.</strong>
+          Newsrooms ignore form letters. Rewrite the demand in your own words, point to a specific story they got wrong or ignored, keep it short, and sign your full name. A letter that sounds like a real person gets read.
+        </div>
+        <div class="ds-media-list" id="mediaList">
+
+          <div class="ds-media-item" data-email="haveyoursay@bbc.co.uk" data-name="BBC">
+            <div class="ds-media-name">BBC</div>
+            <button class="ds-media-meta ds-media-copyaddr" onclick="copyMediaAddress(this)" title="Click to copy address">haveyoursay@bbc.co.uk</button>
+            <button class="ds-btn primary ds-media-send" onclick="openMediaEmail(this)">Open Email →</button>
+          </div>
+
+          <div class="ds-media-item" data-email="nytnews@nytimes.com" data-name="New York Times">
+            <div class="ds-media-name">New York Times</div>
+            <button class="ds-media-meta ds-media-copyaddr" onclick="copyMediaAddress(this)" title="Click to copy address">nytnews@nytimes.com</button>
+            <button class="ds-btn primary ds-media-send" onclick="openMediaEmail(this)">Open Email →</button>
+          </div>
+
+          <div class="ds-media-item" data-email="letters@guardian.co.uk" data-name="The Guardian">
+            <div class="ds-media-name">The Guardian</div>
+            <button class="ds-media-meta ds-media-copyaddr" onclick="copyMediaAddress(this)" title="Click to copy address">letters@guardian.co.uk</button>
+            <button class="ds-btn primary ds-media-send" onclick="openMediaEmail(this)">Open Email →</button>
+          </div>
+
+          <div class="ds-media-item" data-email="info@ap.org" data-name="Associated Press">
+            <div class="ds-media-name">Associated Press</div>
+            <button class="ds-media-meta ds-media-copyaddr" onclick="copyMediaAddress(this)" title="Click to copy address">info@ap.org</button>
+            <button class="ds-btn primary ds-media-send" onclick="openMediaEmail(this)">Open Email →</button>
+          </div>
+
+          <div class="ds-media-item" data-email="tips@cnn.com" data-name="CNN">
+            <div class="ds-media-name">CNN</div>
+            <button class="ds-media-meta ds-media-copyaddr" onclick="copyMediaAddress(this)" title="Click to copy address">tips@cnn.com</button>
+            <button class="ds-btn primary ds-media-send" onclick="openMediaEmail(this)">Open Email →</button>
+          </div>
+
+          <div class="ds-media-item" data-email="newsmanager@foxnews.com" data-name="Fox News">
+            <div class="ds-media-name">Fox News</div>
+            <button class="ds-media-meta ds-media-copyaddr" onclick="copyMediaAddress(this)" title="Click to copy address">newsmanager@foxnews.com</button>
+            <button class="ds-btn primary ds-media-send" onclick="openMediaEmail(this)">Open Email →</button>
+          </div>
+
+        </div>
+        <p style="font-size:0.72rem;color:var(--ink-mute);margin-top:0.8rem!important;font-style:italic;">Open Email pre-fills everything in your default mail app. Or copy the address and paste the letter (from Copy Demand above) into any webmail. Add your name before sending.</p>
+      </div>
+
+      <!-- Share bar -->
+      <div class="ds-share-bar" id="shareBar">
+        <div class="ds-share-headline">Spread This Demand</div>
+        <p class="ds-share-copy" id="sharePreview">Your post will lead with the solution and link to the library.</p>
+        <div class="ds-share-btns">
+          <button class="ds-btn" onclick="shareToFacebook()">Facebook</button>
+          <button class="ds-btn" onclick="shareToBluesky()">Bluesky</button>
+          <button class="ds-btn" onclick="shareToThreads()">Threads</button>
+          <button class="ds-btn" onclick="shareToX()">X</button>
+          <button class="ds-btn ghost" onclick="copyShareLink()">Copy Link</button>
+        </div>
+      </div>
+
+      <!-- Conversion card -->
+      <div class="ds-convert-card" id="convertCard" data-o-anonymous="1">
+        <div class="ds-convert-eyebrow">Want the full picture?</div>
+        <div class="ds-convert-headline">The full brief on every issue, with a full-access subscription.</div>
+        <div class="ds-convert-formats">The 5-star, top-30 docuseries</div>
+        <a class="ds-btn primary" href="https://www.survivorsguidetoearth.com/subscribe?utm_source=demand-tool&utm_medium=app&utm_campaign=demand-solutions" target="_blank" style="display:inline-block!important;margin:0.4rem 0 0.8rem 0!important;padding:0.6rem 1.1rem!important;">Join SGE</a>
+        <div class="ds-convert-footer">Member-funded &nbsp;·&nbsp; Ad-free &nbsp;·&nbsp; Independent</div>
+      </div>
+
+    </div><!-- /ds-send-section -->
+  </section><!-- /ds-action-panel -->
+
+</main>
+
+<!-- ── Footer ── -->
+<footer class="ds-footer">
+  <div class="ds-footer-ornament">✦</div>
+  <p class="ds-footer-note">
+    A free tool from <a href="https://www.survivorsguidetoearth.com">Survivors Guide to Earth</a>
+    &nbsp;·&nbsp; Member-funded, ad-free independent media
+  </p>
+  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v2</div>
+</footer>
+
+</div><!-- /sge-ds -->
+
+<script>
+/* ==========================================================
+   DEMAND SOLUTIONS: INTERACTION
+   ========================================================== */
+
+const issueCards  = document.querySelectorAll('.ds-issue-card');
+const demandBox   = document.getElementById('demandBox');
+let activeIssue   = null;
+
+// ── Analytics (GA4 is loaded site-wide on /demand; these no-op if absent).
+// Privacy: only categorical values are ever sent. NEVER postcode, rep details,
+// message text, email, or any personal data. GA prohibits PII.
+function dsTopic() {
+  // Categorical issue id only (e.g. "immigration", "climate"). Not PII.
+  return (activeIssue && activeIssue.dataset.id) ? activeIssue.dataset.id : 'none';
+}
+let dsDemandTracked = false; // de-dupe: one demand_submitted per selected issue
+function dsTrackDemandSubmitted() {
+  if (dsDemandTracked) return;
+  dsDemandTracked = true;
+  if (window.gtag) gtag('event', 'demand_submitted', { topic: dsTopic(), method: 'rep' });
+}
+// Upgrade-click tracking via a delegated, page-level listener. This catches both
+// the in-tool "Join SGE" button and the hand-made Squarespace "UPGRADE FOR FULL
+// ACCESS" block, which lives outside this code block. One listener, so any single
+// upgrade click fires exactly one select_upgrade event (no double-counting).
+(function () {
+  if ((location.pathname || '').replace(/\/+$/, '') !== '/demand') return;
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a, button');
+    if (!a) return;
+    var href = (a.getAttribute && a.getAttribute('href')) || '';
+    var txt  = (a.textContent || '').toLowerCase();
+    if (href.indexOf('/subscribe') > -1 || txt.indexOf('upgrade') > -1 || txt.indexOf('full access') > -1) {
+      window.gtag && gtag('event', 'select_upgrade', { cta_location: 'demand-tool' });
+    }
+  }, true);
+})();
+
+// ── URL param pre-select on load
+function dsInitPreselect() {
+  const params   = new URLSearchParams(window.location.search);
+  const issueId  = params.get('issue');
+  const demandParam = params.get('demand');
+  let target = null;
+  if (issueId) target = document.querySelector(`[data-id="${issueId}"]`);
+  if (target) {
+    selectIssue(target);
+    if (demandParam) demandBox.value = decodeURIComponent(demandParam);
+  }
+  // default: no pre-select, library is browseable
+}
+// Run now if the DOM is already parsed (the tool may be injected by a loader
+// AFTER DOMContentLoaded has fired); otherwise wait for it.
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', dsInitPreselect);
+} else {
+  dsInitPreselect();
+}
+
+// ── Issue selection
+issueCards.forEach(card => card.addEventListener('click', () => selectIssue(card)));
+
+function selectIssue(card) {
+  issueCards.forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  activeIssue = card;
+  dsDemandTracked = false; // new issue, allow one demand_submitted for it
+
+  // Update right panel header
+  const headline = card.dataset.headline || '';
+  const summary  = card.dataset.summary  || '';
+  const demand   = card.dataset.demand   || '';
+
+  document.getElementById('selectedHeadline').textContent = headline;
+
+  const sumEl = document.getElementById('selectedSummary');
+  sumEl.textContent = summary;
+  sumEl.classList.toggle('hidden', !summary);
+
+
+  demandBox.value = demand;
+  updateConvoPreview();
+
+  // Scroll the demand box into view whenever the issue changes, so the user
+  // always sees the new demand even if the AN form below has them scrolled down.
+  // (Mobile: brings the whole action panel up. Desktop: brings the demand box up.)
+  if (window.innerWidth <= 720) {
+    document.querySelector('.ds-action-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    demandBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+function reloadDemand() {
+  if (activeIssue) demandBox.value = activeIssue.dataset.demand || '';
+}
+
+function clearDemand() { demandBox.value = ''; }
+
+// ── Cluster filter (mobile)
+function filterCluster(cluster, btn) {
+  document.querySelectorAll('.ds-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.ds-cluster').forEach(c => {
+    c.style.display = (cluster === 'all' || c.dataset.cluster === cluster) ? 'block' : 'none';
+  });
+}
+
+// ── Guard: require an issue + demand text before any send action.
+// Returns true if OK to proceed, false (and nudges the user) if not.
+function dsRequireDemand() {
+  if (activeIssue && demandBox.value.trim()) return true;
+  // Nudge: scroll to step 1 and flash a message.
+  let nudge = document.getElementById('dsNudge');
+  if (!nudge) {
+    nudge = document.createElement('div');
+    nudge.id = 'dsNudge';
+    nudge.className = 'ds-nudge';
+    nudge.textContent = 'Pick a solution first (Step 1), then your demand loads here ready to send.';
+    const panel = document.querySelector('.ds-action-panel');
+    panel.insertBefore(nudge, panel.firstChild);
+  }
+  nudge.classList.add('show');
+  setTimeout(() => nudge.classList.remove('show'), 4000);
+  // Send them back to the start of the flow.
+  const lib = document.querySelector('.ds-library');
+  (lib || document.querySelector('.ds-action-panel')).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  return false;
+}
+
+// ── Send tabs
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.ds-send-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.ds-send-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + tabId).classList.add('active');
+  // The conversation panel IS the social-share UI, so suppress the duplicate
+  // "Spread This Demand" bar while it's open; restore it on other tabs if it
+  // was already revealed by a prior send.
+  const shareBar = document.getElementById('shareBar');
+  if (tabId === 'conversation') {
+    updateConvoPreview();
+    shareBar.classList.add('ds-hide-sharebar');
+  } else {
+    shareBar.classList.remove('ds-hide-sharebar');
+  }
+}
+
+// ── Country switching
+function switchCountry(code, btn) {
+  document.querySelectorAll('.ds-country-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['US','UK','CA','AU','OTHER'].forEach(c => {
+    const el = document.getElementById('country-' + c);
+    if (el) el.style.display = (c === code) ? 'block' : 'none';
+  });
+  // US delivery is via the Action Network embed, which has no callback we control,
+  // so surface the share + conversion prompt as soon as the user is in the US flow.
+  if (code === 'US') { if (!dsRequireDemand()) return; showShareBar(); }
+}
+
+// ── UK lookup
+async function lookupUK() {
+  if (!dsRequireDemand()) return;
+  const pc = document.getElementById('postcodeUK').value.trim().replace(/\s/g,'').toUpperCase();
+  if (!pc) return;
+  try {
+    // Step 1: get constituency name from postcodes.io (uses 2024 boundaries)
+    const geo = await fetch(`https://api.postcodes.io/postcodes/${pc}`).then(r => r.json());
+    if (!geo.result) { alert('Postcode not found. Please check and try again.'); return; }
+    const constituency = geo.result.parliamentary_constituency_2024 || geo.result.parliamentary_constituency;
+    if (!constituency) { alert('Could not find constituency for this postcode.'); return; }
+
+    // Step 2: search Members API by constituency name (more reliable than raw postcode)
+    const mpRes = await fetch(`https://members-api.parliament.uk/api/Location/Constituency/Search?searchText=${encodeURIComponent(constituency)}&skip=0&take=1`).then(r => r.json());
+    const mp = mpRes.items?.[0]?.value?.currentRepresentation?.member?.value;
+    if (!mp) { alert('MP not found. They may not have a current representative listed.'); return; }
+    const name  = mp.nameDisplayAs;
+    const email = mp.latestHouseMembership?.membershipEmail || null;
+    const result = document.getElementById('repResultUK');
+    result.classList.add('visible');
+    document.getElementById('repNameUK').textContent = name;
+    document.getElementById('repMetaUK').textContent = constituency + '  ·  House of Commons';
+    if (email) {
+      const mailBtn = document.getElementById('ukMailBtn');
+      const subject = encodeURIComponent('Constituent Demand: ' + (activeIssue?.dataset.headline || 'Solution'));
+      const body    = encodeURIComponent(demandBox.value);
+      mailBtn.onclick = () => { dsTrackDemandSubmitted(); window.open(`mailto:${email}?subject=${subject}&body=${body}`); };
+      document.getElementById('ukSendArea').style.display = 'block';
+    } else {
+      // No email listed, link to their parliament profile page instead
+      const profileUrl = `https://members.parliament.uk/member/${mp.id}/contact`;
+      const profileBtn = document.getElementById('ukMailBtn');
+      profileBtn.textContent = 'Contact via Parliament Page →';
+      profileBtn.onclick = () => { dsTrackDemandSubmitted(); window.open(profileUrl, '_blank'); };
+      document.getElementById('ukSendArea').style.display = 'block';
+    }
+    showShareBar();
+  } catch(e) { alert('Lookup failed. Please try again.'); }
+}
+
+// ── Canada lookup
+async function lookupCA() {
+  if (!dsRequireDemand()) return;
+  const postal = document.getElementById('postalCA').value.trim().replace(/\s/g,'').toUpperCase();
+  if (!postal) return;
+  try {
+    const res = await fetch(`https://represent.opennorth.ca/postcodes/${postal}/?format=json`).then(r => r.json());
+    const reps = res.representatives_centroid || [];
+    const mp   = reps.find(r => r.elected_office === 'MP') || reps[0];
+    if (!mp) { alert('MP not found for this postal code.'); return; }
+    const result = document.getElementById('repResultCA');
+    result.classList.add('visible');
+    document.getElementById('repNameCA').textContent = mp.name + (mp.party_name ? ` (${mp.party_name})` : '');
+    document.getElementById('repMetaCA').textContent = mp.district_name || 'House of Commons';
+    if (mp.email) {
+      const mailBtn = document.getElementById('caMailBtn');
+      const subject = encodeURIComponent('Constituent Demand: ' + (activeIssue?.dataset.headline || 'Solution'));
+      const body    = encodeURIComponent(demandBox.value);
+      mailBtn.onclick = () => { dsTrackDemandSubmitted(); window.open(`mailto:${mp.email}?subject=${subject}&body=${body}`); };
+      document.getElementById('caSendArea').style.display = 'block';
+    }
+    showShareBar();
+  } catch(e) { alert('Lookup failed. Please try again.'); }
+}
+
+// ── Australia handoff
+function lookupAU() {
+  if (!dsRequireDemand()) return;
+  const pc = document.getElementById('postcodeAU').value.trim();
+  if (!pc) return;
+  dsTrackDemandSubmitted();
+  window.open(`https://www.aph.gov.au/Senators_and_Members/Parliamentarian_Search_Results?q=${pc}&mem=1&sen=1&par=-1&gen=0&new=0&sum=0&num=0&nout=0&rin=0&act=search`, '_blank');
+  showShareBar();
+}
+
+// ── Copy helpers
+// Reframe the demand text into a press-coverage ask for media outlets.
+function buildMediaLetter(outletName) {
+  let demand = demandBox.value.trim();
+  // Shift the opening from a demand to a coverage request.
+  demand = demand.replace(
+    /^I am writing to demand\b/i,
+    'I am writing to ask that you cover what is required to address'
+  );
+  // Catch the other opening pattern used in a couple of demands.
+  demand = demand.replace(
+    /^I am writing invoking\b/i,
+    'I am writing to ask that you cover'
+  );
+  demand = demand.replace(
+    /^I am writing\b(?! to ask)/i,
+    'I am writing to ask that you cover'
+  );
+  // "I demand" is language for elected officials, not journalists. Reframe every
+  // mid-body instance into a request for coverage, handling the sentence shapes
+  // used across the demands ("I demand you X", "I demand: X", "I demand X").
+  demand = demand.replace(/\bI demand you\b/gi, 'The public deserves journalism that presses for what it would take to');
+  demand = demand.replace(/\bI demand we\b/gi, 'The public deserves journalism that presses for what it would take to');
+  demand = demand.replace(/\bI demand:\s*/gi, 'The public deserves journalism that presses for ');
+  demand = demand.replace(/\bI demand\b/gi, 'The public deserves journalism that presses for');
+  const salutation = `Dear ${outletName},\n\n`;
+  const closer = '\n\nWithout covering the root causes of the great challenges of our time, the "news" becomes PR for special interests. And this is the cause of collapse in trust.\n\nYours truly,\n[Your name]';
+  return salutation + demand + closer;
+}
+
+function openMediaEmail(btn) {
+  const item    = btn.closest('.ds-media-item');
+  const email   = item.dataset.email;
+  const name    = item.dataset.name;
+  const issue   = activeIssue?.dataset.headline || 'Solution';
+  const subject = encodeURIComponent('Why aren\'t you covering this? ' + issue);
+  const body    = encodeURIComponent(buildMediaLetter(name));
+  window.open(`mailto:${email}?subject=${subject}&body=${body}`);
+  showShareBar();
+}
+
+// Click the address to copy just the email, for users who'd rather paste
+// into their own webmail instead of launching a default mail app.
+function copyMediaAddress(el) {
+  const item  = el.closest('.ds-media-item');
+  const email = item.dataset.email;
+  navigator.clipboard.writeText(email).then(() => {
+    const original = el.textContent;
+    el.textContent = '✓ Address copied';
+    setTimeout(() => { el.textContent = original; }, 1500);
+  }).catch(() => {});
+}
+
+function copyDemand() {
+  const text = demandBox.value;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => { showShareBar(); });
+}
+
+// Copy with visible button feedback (for the prominent primary copy button)
+function copyDemandPrimary(btn) {
+  const text = demandBox.value;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.disabled = true;
+    setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 1800);
+  }).catch(() => {
+    // Fallback for older browsers / insecure context: select the textarea
+    demandBox.focus();
+    demandBox.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    const original = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = original; }, 1800);
+  });
+}
+
+// Live preview of the post text shown inside the Conversation & Social Media panel.
+// The text-only preview shown to the user (no link). Mirrors buildShareText:
+// self-contained lines (ending in "Demand it.") are shown as-is.
+function sharePreviewText(fallback) {
+  const shareLine = (activeIssue?.dataset.share || activeIssue?.dataset.summary || '').trim();
+  if (!shareLine) return fallback;
+  if (/demand it\.?$/i.test(shareLine)) return '"' + shareLine + '"';
+  return '"' + shareLine + ' This is a proven solution. Demand it."';
+}
+
+function updateConvoPreview() {
+  const preview = document.getElementById('convoPreview');
+  if (!preview) return;
+  preview.textContent = sharePreviewText('Pick a solution above, then your post text appears here.');
+}
+
+// ── Share
+function showShareBar() {
+  document.getElementById('shareBar').classList.add('visible');
+  document.getElementById('convertCard').classList.add('visible');
+  // Show a live preview of what the post will say (text only, no link).
+  const preview = document.getElementById('sharePreview');
+  if (preview) {
+    preview.textContent = sharePreviewText('Your post will lead with the solution and link to the library.');
+  }
+}
+
+function buildShareURL() {
+  const issueId = activeIssue?.dataset.id || '';
+  // Either toggle (the in-panel one or the spread-bar one) opts into including edits.
+  const t1 = document.getElementById('shareEditedToggle');
+  const t2 = document.getElementById('shareEditedToggleConvo');
+  const includeEdits = (t1 && t1.checked) || (t2 && t2.checked);
+  const base = window.location.origin + window.location.pathname;
+  let url = `${base}?issue=${issueId}`;
+  if (includeEdits && demandBox.value) {
+    url += `&demand=${encodeURIComponent(demandBox.value.substring(0, 500))}`;
+  }
+  return url;
+}
+
+// Builds the share message: the issue's tweet-length summary, closed with
+// the call to action, then the library link on a new line. Falls back to a
+// generic line if no issue is selected.
+function buildShareText() {
+  const shareLine = (activeIssue?.dataset.share || activeIssue?.dataset.summary || '').trim();
+  const cta = 'This is a proven solution. Demand it.';
+  // A share line that already ends with its own call to action ("Demand it.")
+  // is self-contained: post it verbatim with just the bare link, so we don't
+  // double the CTA or blow the character budget. Otherwise use the standard
+  // "[line] This is a proven solution. Demand it. / Here is the library I used:" pattern.
+  if (/demand it\.?$/i.test(shareLine)) {
+    return shareLine + '\n' + buildShareURL();
+  }
+  const lead = shareLine ? (shareLine + ' ' + cta) : ('I just demanded a real solution. ' + cta);
+  return lead + '\nHere is the library I used: ' + buildShareURL();
+}
+
+function shareToX() {
+  // X reads the trailing URL out of the text and shows a card, so pass it all
+  // in `text` rather than splitting into the `url` param (avoids a duplicate link).
+  const text = encodeURIComponent(buildShareText());
+  window.open(`https://x.com/intent/tweet?text=${text}`, '_blank');
+}
+
+function shareToFacebook() {
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(buildShareURL())}`, '_blank');
+}
+
+function shareToBluesky() {
+  const text = encodeURIComponent(buildShareText());
+  window.open(`https://bsky.app/intent/compose?text=${text}`, '_blank');
+}
+
+function shareToThreads() {
+  const text = encodeURIComponent(buildShareText());
+  window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank');
+}
+
+function copyShareLink() {
+  navigator.clipboard.writeText(buildShareURL()).then(() => alert('Share link copied.'));
+}
+</script>

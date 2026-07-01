@@ -1,0 +1,43 @@
+<!-- SGE Demand Solutions loader. Paste THIS into the Squarespace /demand Code Block. -->
+<!-- It is tiny; it pulls the real tool from GitHub via the jsDelivr CDN.            -->
+<div id="sge-demand-root">Loading…</div>
+<script>
+(function () {
+  // ── Set this once: replace matthewcooke-sge with your GitHub username. ──
+  var TOOL_URL = "https://cdn.jsdelivr.net/gh/matthewcooke-sge/sge-web@main/tools/demand-solutions.html";
+  // ─────────────────────────────────────────────────────────────────────
+
+  var mount = document.getElementById("sge-demand-root");
+
+  fetch(TOOL_URL, { cache: "no-cache" })
+    .then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.text();
+    })
+    .then(function (html) {
+      // Inject the fetched markup (style + .sge-ds + inert scripts) in place.
+      mount.innerHTML = html;
+
+      // Scripts inserted via innerHTML do NOT execute. Re-create each so it runs.
+      mount.querySelectorAll("script").forEach(function (old) {
+        var s = document.createElement("script");
+        for (var i = 0; i < old.attributes.length; i++) {
+          s.setAttribute(old.attributes[i].name, old.attributes[i].value);
+        }
+        if (old.src) {
+          s.async = false; // preserve load order for external scripts (Action Network)
+        } else {
+          s.textContent = old.textContent;
+        }
+        old.parentNode.replaceChild(s, old);
+      });
+    })
+    .catch(function (err) {
+      mount.innerHTML =
+        '<p style="font-family:Georgia,serif;color:#8a0909;padding:1rem;">' +
+        "The tool could not load. Please refresh the page." +
+        "</p>";
+      if (window.console) console.error("SGE Demand tool load error:", err);
+    });
+})();
+</script>
