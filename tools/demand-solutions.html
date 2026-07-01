@@ -1,6 +1,6 @@
 <style>
 /* ==========================================================
-   SGE DEMAND SOLUTIONS TOOL v4
+   SGE DEMAND SOLUTIONS TOOL v5
    Design system: matches SGE Homepage / Feature Article / Boycott App
    Scoped under .sge-ds to beat Squarespace specificity
    ========================================================== */
@@ -873,7 +873,7 @@
 </head>
 <body>
 <div class="sge-ds">
-<!-- SGE Demand Solutions BUILD v4 -->
+<!-- SGE Demand Solutions BUILD v5 -->
 
 
 <!-- ── Credo bar ── -->
@@ -1127,12 +1127,22 @@ Every empire that let private monopolies capture public assets has collapsed: Ro
         <div id="country-US">
           <!-- DESKTOP: inline Action Network embed -->
           <div class="ds-us-desktop">
-            <div class="ds-an-instruction">
+            <div class="ds-an-instruction" id="anInstruction">
               <strong>1. Copy your demand above. 2. Paste it into the letter below. 3. Add your ZIP and send.</strong>
               Action Network routes your letter to your specific representatives. Your demand text stays yours to edit.
             </div>
-            <div class="ds-an-embed">
+            <div class="ds-an-embed" id="anEmbed">
               <link href='https://actionnetwork.org/css/style-embed-v3.css' rel='stylesheet' type='text/css' /><script src='https://actionnetwork.org/widgets/v6/letter/demand-real-solutions-from-congress?format=js&source=widget'></script><div id='can-letter-area-demand-real-solutions-from-congress' style='width: 100%'><!-- this div is the target for our HTML insertion --></div>
+            </div>
+            <!-- Fallback: if AN's inline embed never populates (e.g. their anti-bot
+                 blocks the visitor's IP, or the script is dropped), reveal a button
+                 to the hosted letter so no one is left staring at a blank box. -->
+            <div id="anFallback" style="display:none">
+              <div class="ds-an-instruction">
+                <strong>1. Copy your demand above. 2. Open the letter on Action Network. 3. Paste it, add your ZIP, and send.</strong>
+                The inline form could not load here, so this opens Action Network's own page, which routes your letter to your specific representatives.
+              </div>
+              <a class="ds-btn primary ds-us-mobile-btn" href="https://actionnetwork.org/letters/demand-real-solutions-from-congress" target="_blank" rel="noopener" onclick="dsTrackDemandSubmitted(); showShareBar()">Compose Your Letter →</a>
             </div>
           </div>
           <!-- MOBILE: link out to Action Network page (embed button is unreliable on mobile) -->
@@ -1301,7 +1311,7 @@ Every empire that let private monopolies capture public assets has collapsed: Ro
     A free tool from <a href="https://www.survivorsguidetoearth.com">Survivors Guide to Earth</a>
     &nbsp;·&nbsp; Member-funded, ad-free independent media
   </p>
-  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v4</div>
+  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v5</div>
 </footer>
 
 </div><!-- /sge-ds -->
@@ -1365,6 +1375,35 @@ if (document.readyState === 'loading') {
 } else {
   dsInitPreselect();
 }
+
+// Action Network's inline embed can fail to load (their anti-bot may block a
+// flagged IP, or the third-party script may be dropped), leaving the US desktop
+// flow as a blank box. Watch the target div; if it never gets a form, hide the
+// dead embed and reveal a button to AN's hosted letter page (which always works).
+// Self-correcting: if the embed loads late, we swap the real form back in.
+function dsWatchANEmbed() {
+  var target = document.getElementById('can-letter-area-demand-real-solutions-from-congress');
+  var fallback = document.getElementById('anFallback');
+  if (!target || !fallback) return;
+  var embed = document.getElementById('anEmbed');
+  var instr = document.getElementById('anInstruction');
+  var tries = 0;
+  var timer = setInterval(function () {
+    tries++;
+    if (target.children.length > 0) {           // AN injected the letter form
+      fallback.style.display = 'none';
+      if (embed) embed.style.display = '';
+      if (instr) instr.style.display = '';
+      clearInterval(timer);
+    } else if (tries >= 3) {                     // ~4.5s and still empty: fall back
+      if (embed) embed.style.display = 'none';
+      if (instr) instr.style.display = 'none';
+      fallback.style.display = 'block';
+      if (tries >= 8) clearInterval(timer);      // stop watching after ~12s
+    }
+  }, 1500);
+}
+dsWatchANEmbed();
 
 // ── Issue selection
 issueCards.forEach(card => card.addEventListener('click', () => selectIssue(card)));
