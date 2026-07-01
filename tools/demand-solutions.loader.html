@@ -3,8 +3,10 @@
 <div id="sge-demand-root">Loading…</div>
 <script>
 (function () {
-  // ── Set this once: replace matthewcooke-sge with your GitHub username. ──
-  var TOOL_URL = "https://cdn.jsdelivr.net/gh/matthewcooke-sge/sge-web@main/tools/demand-solutions.html";
+  // ── Pinned to an immutable release tag (demand-vN) so the CDN serves the ──
+  // exact release instantly and never a stale @main mix. Bump the tag number
+  // each release and re-paste this snippet into the Squarespace Code Block.
+  var TOOL_URL = "https://cdn.jsdelivr.net/gh/matthewcooke-sge/sge-web@demand-v7/tools/demand-solutions.html";
   // ─────────────────────────────────────────────────────────────────────
 
   var mount = document.getElementById("sge-demand-root");

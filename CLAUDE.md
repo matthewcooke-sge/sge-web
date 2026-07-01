@@ -59,20 +59,30 @@ Each tool is two files in `tools/`:
    blank line inside the `data-demand` value where you want a break; the parser
    preserves it and the function leaves it intact.
 
-## How deploys work (so you push correctly)
+## How deploys work (immutable release tags, NOT @main)
 
-- Editing a tool = edit `tools/NAME.html`, bump its version, commit, push to
-  `main`. That is all. Do NOT touch Squarespace; the loader there fetches
-  whatever the file currently says.
-- After pushing, Claude purges jsDelivr automatically so the change goes live
-  immediately (do not leave this to the human). Hit the purge endpoint for each
-  changed file:
-  `curl -s "https://purge.jsdelivr.net/gh/matthewcooke-sge/sge-web@main/tools/NAME.html"`
-  A `"status": "finished"` response means it cleared. Then verify the CDN serves
-  the new version, e.g.
-  `curl -s "https://cdn.jsdelivr.net/gh/matthewcooke-sge/sge-web@main/tools/NAME.html" | grep -oE "BUILD v[0-9]+"`
-- Tell the human it is live and remind them to hard-refresh the Squarespace page
-  and confirm the footer version.
+Each Squarespace loader (`tools/NAME.loader.html`) is pinned to an immutable git
+tag `NAME-vN` (e.g. `demand-v7`), NOT to `@main`. jsDelivr serves a tag's content
+permanently and instantly, so the live page never gets a stale or half-mixed
+version. (`@main` is a moving branch alias; jsDelivr's resolution of it can lag or
+even serve older cached commits for hours. That is the exact failure this avoids.)
+
+Release checklist for a tool change:
+1. Edit `tools/NAME.html`, bump the version stamp in BOTH places (rule #2).
+2. `git add` + commit + push to `main`.
+3. Tag that commit and push the tag, matching the new footer version:
+   `git tag NAME-vN && git push origin NAME-vN`  (e.g. `demand-v8`)
+4. Verify the tag serves the new content:
+   `curl -s "https://cdn.jsdelivr.net/gh/matthewcooke-sge/sge-web@NAME-vN/tools/NAME.html" | grep -oE "BUILD v[0-9]+"`
+5. Update `tools/NAME.loader.html` so its `TOOL_URL` points at `@NAME-vN`
+   (the new tag), then commit + push that too.
+6. Give the human the updated loader snippet and tell them to paste it into the
+   Squarespace Code Block (only the `@NAME-vN` version changed). Immutable tag =
+   live the instant they save; no purge, no waiting, no stale mix.
+
+Tags are per-tool (`demand-v7`, `boycott-v3`, ...) so each tool has its own release
+line even though a git tag snapshots the whole repo (the loader only fetches its
+one file from the tag). No need to purge jsDelivr for tagged releases.
 
 ## Naming
 
