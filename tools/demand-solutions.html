@@ -1,6 +1,6 @@
 <style>
 /* ==========================================================
-   SGE DEMAND SOLUTIONS TOOL v11
+   SGE DEMAND SOLUTIONS TOOL v12
    Design system: matches SGE Homepage / Feature Article / Boycott App
    Scoped under .sge-ds to beat Squarespace specificity
    ========================================================== */
@@ -254,11 +254,17 @@
   cursor: pointer;
   transition: all 0.12s;
 }
-.sge-ds .ds-filter-btn.active,
-.sge-ds .ds-filter-btn:hover {
+.sge-ds .ds-filter-btn.active {
   background: var(--ink);
   border-color: var(--ink);
   color: var(--bg);
+}
+@media (hover: hover) {
+  .sge-ds .ds-filter-btn:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
+  }
 }
 
 /* Cluster groups */
@@ -298,10 +304,12 @@
   transition: border-color 0.13s, background 0.13s;
   position: relative;
 }
-.sge-ds .ds-issue-card:hover {
-  background: var(--bg-alt);
-  border-color: var(--rule);
-  border-left-color: var(--ink-mute);
+@media (hover: hover) {
+  .sge-ds .ds-issue-card:hover {
+    background: var(--bg-alt);
+    border-color: var(--rule);
+    border-left-color: var(--ink-mute);
+  }
 }
 .sge-ds .ds-issue-card.active {
   background: var(--bg-card);
@@ -447,19 +455,19 @@
   gap: 0.3rem;
   text-decoration: none;
 }
-.sge-ds .ds-btn:hover { background: var(--ink); color: var(--bg); }
+@media (hover: hover) { .sge-ds .ds-btn:hover { background: var(--ink); color: var(--bg); } }
 .sge-ds .ds-btn.primary {
   background: var(--red);
   border-color: var(--red);
   color: white;
 }
-.sge-ds .ds-btn.primary:hover { background: var(--red-dark); border-color: var(--red-dark); }
+@media (hover: hover) { .sge-ds .ds-btn.primary:hover { background: var(--red-dark); border-color: var(--red-dark); } }
 .sge-ds .ds-btn.ghost {
   border-color: var(--rule);
   color: var(--ink-mute);
   font-size: 0.62rem;
 }
-.sge-ds .ds-btn.ghost:hover { border-color: var(--ink-mute); background: transparent; color: var(--ink); }
+@media (hover: hover) { .sge-ds .ds-btn.ghost:hover { border-color: var(--ink-mute); background: transparent; color: var(--ink); } }
 
 /* ── Send tabs ── */
 .sge-ds .ds-send-section {
@@ -485,9 +493,11 @@
   transition: color 0.13s, background 0.13s, border-color 0.13s;
   margin-bottom: -1px;
 }
-.sge-ds .ds-send-tab:hover {
-  color: var(--ink);
-  background: var(--bg-alt);
+@media (hover: hover) {
+  .sge-ds .ds-send-tab:hover {
+    color: var(--ink);
+    background: var(--bg-alt);
+  }
 }
 .sge-ds .ds-send-tab.active {
   color: var(--red);
@@ -519,11 +529,17 @@
   cursor: pointer;
   transition: all 0.12s;
 }
-.sge-ds .ds-country-btn.active,
-.sge-ds .ds-country-btn:hover {
+.sge-ds .ds-country-btn.active {
   border-color: var(--ink);
   background: var(--ink);
   color: var(--bg);
+}
+@media (hover: hover) {
+  .sge-ds .ds-country-btn:hover {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+  }
 }
 
 /* Lookup row */
@@ -780,9 +796,11 @@
   text-underline-offset: 2px;
   transition: color 0.12s;
 }
-.sge-ds .ds-media-copyaddr:hover {
-  color: var(--red);
-  text-decoration-color: var(--red);
+@media (hover: hover) {
+  .sge-ds .ds-media-copyaddr:hover {
+    color: var(--red);
+    text-decoration-color: var(--red);
+  }
 }
 .sge-ds .ds-media-send {
   flex-shrink: 0;
@@ -960,7 +978,7 @@
 </head>
 <body>
 <div class="sge-ds">
-<!-- SGE Demand Solutions BUILD v11 -->
+<!-- SGE Demand Solutions BUILD v12 -->
 
 
 <!-- ── Credo bar ── -->
@@ -1481,7 +1499,7 @@ I also demand fully funded retraining and transition support for workers in foss
     A free tool from <a href="https://www.survivorsguidetoearth.com">Survivors Guide to Earth</a>
     &nbsp;·&nbsp; Member-funded, ad-free independent media
   </p>
-  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v11</div>
+  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v12</div>
 </footer>
 
 <!-- How-to video lightbox. The Vimeo iframe loads only when opened. -->
