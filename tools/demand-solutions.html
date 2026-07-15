@@ -1,6 +1,6 @@
 <style>
 /* ==========================================================
-   SGE DEMAND SOLUTIONS TOOL v12
+   SGE DEMAND SOLUTIONS TOOL v13
    Design system: matches SGE Homepage / Feature Article / Boycott App
    Scoped under .sge-ds to beat Squarespace specificity
    ========================================================== */
@@ -978,7 +978,7 @@
 </head>
 <body>
 <div class="sge-ds">
-<!-- SGE Demand Solutions BUILD v12 -->
+<!-- SGE Demand Solutions BUILD v13 -->
 
 
 <!-- ── Credo bar ── -->
@@ -1082,11 +1082,27 @@ Healthcare is not a market good. It is a human obligation.">
     <div class="ds-cluster" data-cluster="enemies">
       <div class="ds-cluster-label"><span class="ds-cluster-name">Lie #2: Manufactured Enemies</span><span class="ds-cluster-lie">"Incompatible. Criminal. Taking our jobs."</span></div>
 
-      <div class="ds-issue-card" data-id="immigration" data-share="123 million refugees of war, inequality, and climate chaos made by the richest nations. End war for profit, replace fossil fuels, abolish poverty and DHS/ICE (immigration is civil, not military)." data-cluster="enemies"
-        data-headline="Migration Crisis"
-        data-summary="123 million people have been forced from home by permanent war, inequality, and climate disaster, largely created by the world's wealthiest nations. Militarizing borders criminalizes survivors. The migration crisis is manmade."
-        data-demand="I am writing to demand root-cause solutions to the migration crisis. Nearly 123 million people have been forced from their homes by permanent war, manmade inequality, and environmental disaster, largely created by the foreign and economic policies of the world's wealthiest nations. Militarizing borders criminalizes survivors while shirking responsibility. Immigrants contribute over $6.7 trillion annually to global GDP. I demand you declare the migration crisis a global emergency, prioritize climate adaptation and poverty eradication as security investments, and end permanent war for profit, which is what drives displacement in the first place. I demand you abolish ICE and dismantle the militarized homeland-security apparatus behind it. Immigration is a civil matter, not a military threat, and does not warrant a standing armed force that raids workplaces and tears families apart. Where enforcement is genuinely needed, it belongs with accountable civil agencies bound by due process, not troops. Solve the cause and you end the crisis, while protecting the universal right to move with dignity.">
-        <div class="ds-issue-headline">Migration Crisis</div>
+      <div class="ds-issue-card" data-id="immigration" data-share="117.8M people have been forced from home by permanent war, inequality, and climate disaster. Largely created by the world's wealthiest nations. The same nations scapegoat the survivors, and use them to justify militarized secret police." data-cluster="enemies"
+        data-headline="Immigration Enforcement Crisis"
+        data-summary="117.8 million people have been forced from home by permanent war, inequality, and climate disaster, largely created by the world's wealthiest nations. The same nations scapegoat the survivors and use them to justify a militarized secret police. Immigration is a civil matter, not a military threat."
+        data-demand="I demand you abolish ICE and dismantle the entire illegitimate militarized immigration enforcement system and homeland-security apparatus behind it.
+
+Immigration is a civil matter, not a military threat, and does not warrant a standing armed force that raids workplaces, tears families apart, and operates as an excuse for militarized police who violate basic human rights.
+
+Where enforcement is genuinely needed, it belongs with accountable civil agencies bound by due process, not troops.
+
+Furthermore, I demand all individuals involved in Fourth Amendment violations, violence, kidnapping, and murder be prosecuted to the full extent of the law.
+
+Universal human rights, for all, regardless of religion, ethnicity, or nationality, are a requirement for rights to exist at all.
+
+With regard to the migration crisis itself: solve the cause and you end the crisis, while protecting the universal right to move with dignity.
+
+Nearly 118 million people have been forced from their homes by permanent war, man-made inequality, and environmental disaster, largely created by the foreign and economic policies of the world's wealthiest nations.
+
+Militarizing borders criminalizes survivors while shirking responsibility. Migrants make up just 3.4 percent of the world's population but produce nearly 10 percent of global economic output.
+
+I demand you declare the migration crisis a global emergency, prioritize climate adaptation and poverty eradication as security investments, and end the permanent war for profit that drives displacement in the first place.">
+        <div class="ds-issue-headline">Immigration Enforcement Crisis</div>
         <div class="ds-issue-tag">Rights &nbsp;&middot;&nbsp; Humanitarian</div>
       </div>
 
@@ -1499,7 +1515,7 @@ I also demand fully funded retraining and transition support for workers in foss
     A free tool from <a href="https://www.survivorsguidetoearth.com">Survivors Guide to Earth</a>
     &nbsp;·&nbsp; Member-funded, ad-free independent media
   </p>
-  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v12</div>
+  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v13</div>
 </footer>
 
 <!-- How-to video lightbox. The Vimeo iframe loads only when opened. -->
@@ -1610,8 +1626,11 @@ issueCards.forEach(card => card.addEventListener('click', () => selectIssue(card
 // "I demand ..." clause so the compose box and the mailto/email bodies show
 // clean paragraphs. Keep demand action clauses starting with "I demand ...".
 function paragraphizeDemand(text) {
+  // Break only before a SENTENCE-starting "I demand" (after . ! ? and an optional
+  // closing quote), so a mid-sentence "Furthermore, I demand ..." stays inline.
+  // Explicit blank lines authored in data-demand are preserved.
   return (text || '')
-    .replace(/\s+I demand\b/g, '\n\nI demand')
+    .replace(/([.!?]['"]?)\s+I demand\b/g, '$1\n\nI demand')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
