@@ -1,6 +1,6 @@
 <style>
 /* ==========================================================
-   SGE DEMAND SOLUTIONS TOOL v14
+   SGE DEMAND SOLUTIONS TOOL v15
    Design system: matches SGE Homepage / Feature Article / Boycott App
    Scoped under .sge-ds to beat Squarespace specificity
    ========================================================== */
@@ -10,6 +10,11 @@
   margin: 0;
   padding: 0;
 }
+
+/* Touch: kill the 300ms double-tap-zoom delay so quick successive taps
+   (e.g. tabs then country buttons) fire reliably on iOS instead of being
+   swallowed by the double-tap recognizer. */
+.sge-ds button, .sge-ds a, .sge-ds .ds-issue-card { touch-action: manipulation; }
 
 /* Squarespace injects margin, max-width, and text-align onto bare <p> and
    <h*> inside Code Blocks. The universal `*` reset above (specificity 0,1,0)
@@ -906,7 +911,7 @@
   color: var(--ink-soft);
   transition: color 0.13s;
 }
-.sge-ds .ds-howto:hover { color: var(--red); }
+@media (hover: hover) { .sge-ds .ds-howto:hover { color: var(--red); } }
 .sge-ds .ds-howto-play {
   display: inline-flex;
   align-items: center;
@@ -918,7 +923,7 @@
   flex-shrink: 0;
   transition: transform 0.13s;
 }
-.sge-ds .ds-howto:hover .ds-howto-play { transform: scale(1.08); }
+@media (hover: hover) { .sge-ds .ds-howto:hover .ds-howto-play { transform: scale(1.08); } }
 .sge-ds .ds-howto-play::before {
   content: '';
   border-style: solid;
@@ -970,7 +975,7 @@
   cursor: pointer;
   padding: 0.3rem 0 !important;
 }
-.sge-ds .ds-modal-close:hover { color: var(--gold); }
+@media (hover: hover) { .sge-ds .ds-modal-close:hover { color: var(--gold); } }
 @media (max-width: 720px) {
   .sge-ds .ds-modal-close { top: -2.2rem; font-size: 0.6rem; }
 }
@@ -978,7 +983,7 @@
 </head>
 <body>
 <div class="sge-ds">
-<!-- SGE Demand Solutions BUILD v14 -->
+<!-- SGE Demand Solutions BUILD v15 -->
 
 
 <!-- ── Credo bar ── -->
@@ -1519,7 +1524,7 @@ I also demand fully funded retraining and transition support for workers in foss
     A free tool from <a href="https://www.survivorsguidetoearth.com">Survivors Guide to Earth</a>
     &nbsp;·&nbsp; Member-funded, ad-free independent media
   </p>
-  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v14</div>
+  <div style="text-align:center;font-family:var(--serif-body);font-size:0.6rem;color:var(--rule);letter-spacing:0.05em;margin-top:0.8rem!important;">v15</div>
 </footer>
 
 <!-- How-to video lightbox. The Vimeo iframe loads only when opened. -->
@@ -1876,20 +1881,32 @@ function copyDemand() {
 function copyDemandPrimary(btn) {
   const text = demandBox.value;
   if (!text) return;
-  navigator.clipboard.writeText(text).then(() => {
+  function feedback() {
     const original = btn.textContent;
     btn.textContent = '✓ Copied';
     btn.disabled = true;
     setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 1800);
-  }).catch(() => {
-    // Fallback for older browsers / insecure context: select the textarea
-    demandBox.focus();
-    demandBox.select();
-    try { document.execCommand('copy'); } catch(e) {}
-    const original = btn.textContent;
-    btn.textContent = '✓ Copied';
-    setTimeout(() => { btn.textContent = original; }, 1800);
-  });
+  }
+  function fallback() {
+    // Copy via a throwaway off-screen field so we never focus the visible
+    // textarea, which pops the iOS keyboard and can misplace later taps.
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    feedback();
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(feedback).catch(fallback);
+  } else {
+    fallback();
+  }
 }
 
 // Live preview of the post text shown inside the Conversation & Social Media panel.
